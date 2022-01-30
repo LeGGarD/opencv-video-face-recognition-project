@@ -3,11 +3,13 @@ import face_recognition
 import cv2
 
 KNOWN_FACES_DIR = 'KNOWN_FACES'
-UNKNOWN_FACES_DIR = 'UNKNOWN_FACES'
+# UNKNOWN_FACES_DIR = 'UNKNOWN_FACES'
 TOLERANCE = 0.6
 FRAME_THIKNESS = 3
 FONT_THIKNESS = 2
 MODEL = 'hog'
+
+video = cv2.VideoCapture(0)
 
 print('loading known faces...')
 
@@ -23,12 +25,15 @@ for name in os.listdir(KNOWN_FACES_DIR):
 
 print('processing unknown faces...')
 
-for filename in os.listdir(UNKNOWN_FACES_DIR):
-    print(filename)
-    image = face_recognition.load_image_file(f'{UNKNOWN_FACES_DIR}/{filename}')
+while True:
+    # print(filename)
+    # image = face_recognition.load_image_file(f'{UNKNOWN_FACES_DIR}/{filename}')
+
+    ret, image = video.read()
+
     locations = face_recognition.face_locations(image, model=MODEL)
     encodings = face_recognition.face_encodings(image, locations)
-    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    # image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
     for face_encoding, face_location in zip(encodings, locations):
         results = face_recognition.compare_faces(known_faces, face_encoding, TOLERANCE)
@@ -47,6 +52,8 @@ for filename in os.listdir(UNKNOWN_FACES_DIR):
             cv2.putText(image, match, (face_location[3] + 10, face_location[2] + 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
                         (200, 200, 200), FONT_THIKNESS)
 
-    cv2.imshow(filename, image)
-    cv2.waitKey(0)
-    cv2.destroyWindow(filename)
+    cv2.imshow('Webcam', image)
+    if cv2.waitKey(20) & 0xFF==ord('d'):
+        break
+    # cv2.waitKey(0)
+    # cv2.destroyWindow(filename)
