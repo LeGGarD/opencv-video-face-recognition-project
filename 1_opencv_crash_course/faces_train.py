@@ -4,7 +4,7 @@ import numpy as np
 
 people = ['Sergey', 'Zlata']
 
-DIR = '/home/leggard/PROGRAMMING/opencv-video-face-recognition-project/opencv_crash_course/faces/train/'
+DIR = '/1_opencv_crash_course/faces/train/'
 
 haar_cascade = cv2.CascadeClassifier('haarcascade_frontface_default.xml')
 
@@ -43,6 +43,3 @@ face_recognizer.train(features, labels)
 face_recognizer.save('face_recognizer.yml')
 np.save('features.npy', features)
 np.save('labels.npy', labels)
-
-
-
