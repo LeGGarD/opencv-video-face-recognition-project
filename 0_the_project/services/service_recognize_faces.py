@@ -13,20 +13,21 @@ MODEL = 'hog'
 
 @injectable
 class RecognizeFaces():
-    video = cv2.VideoCapture(0)
+    def __init__(self):
+        self.video = cv2.VideoCapture(0)
 
     def add_face(self):
-        # print('loading known faces...')
-        #
-        # known_faces = []
-        # known_names = []
-        #
-        # for name in os.listdir(KNOWN_FACES_DIR):
-        #     for filename in os.listdir(f'{KNOWN_FACES_DIR}/{name}'):
-        #         image = face_recognition.load_image_file(f'{KNOWN_FACES_DIR}/{name}/{filename}')
-        #         encoding = face_recognition.face_encodings(image)
-        #         known_faces.append(encoding[0])
-        #         known_names.append(name)
+        print('loading known faces...')
+
+        known_faces = []
+        known_names = []
+
+        for name in os.listdir(KNOWN_FACES_DIR):
+            for filename in os.listdir(f'{KNOWN_FACES_DIR}/{name}'):
+                image = face_recognition.load_image_file(f'{KNOWN_FACES_DIR}/{name}/{filename}')
+                encoding = face_recognition.face_encodings(image)
+                known_faces.append(encoding[0])
+                known_names.append(name)
 
 
     def load_faces(self):
@@ -39,7 +40,7 @@ class RecognizeFaces():
             # print(filename)
             # image = face_recognition.load_image_file(f'{UNKNOWN_FACES_DIR}/{filename}')
 
-            ret, image = video.read()
+            ret, image = self.video.read()
 
             locations = face_recognition.face_locations(image, model=MODEL)
             encodings = face_recognition.face_encodings(image, locations)

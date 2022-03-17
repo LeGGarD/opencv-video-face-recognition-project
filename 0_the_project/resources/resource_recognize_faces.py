@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import APIRouter
 
 from starlette.requests import Request
 from starlette.responses import HTMLResponse, StreamingResponse
@@ -8,29 +8,29 @@ import cv2
 
 from services.service_recognize_faces import RecognizeFaces
 
-router_main = FastAPI()
+router_main = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
 face_rec = RecognizeFaces()
 
-# camera = cv2.VideoCapture(0)
-#
-#
-# def generate_frames():
-#     while True:
-#
-#         ## read the camera frame
-#         success, frame = camera.read()
-#         if not success:
-#             break
-#         else:
-#             ret, buffer = cv2.imencode('.jpg', frame)
-#             frame = buffer.tobytes()
-#
-#         yield (b'--frame\r\n'
-#                b'Content-Type: image/jpeg\r\n\r\n'
-#                + frame +
-#                b'\r\n')
+camera = cv2.VideoCapture(0)
+
+
+def generate_frames():
+    while True:
+
+        ## read the camera frame
+        success, frame = camera.read()
+        if not success:
+            break
+        else:
+            ret, buffer = cv2.imencode('.jpg', frame)
+            frame = buffer.tobytes()
+
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n'
+               + frame +
+               b'\r\n')
 
 
 @router_main.get('/', response_class=HTMLResponse)
