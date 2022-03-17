@@ -10,7 +10,6 @@ RUN pip install opencv-python
 RUN pip install cmake
 RUN pip install Jinja2
 RUN pip install injectable
-RUN pip install sqlite3
 RUN pip install sqlalchemy
 # Install dlib and face_recognition
 RUN git clone https://github.com/davisking/dlib.git
