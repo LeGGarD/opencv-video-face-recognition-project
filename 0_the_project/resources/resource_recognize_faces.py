@@ -24,6 +24,7 @@ def generate_frames():
         if not success:
             break
         else:
+            frame = cv2.resize(frame, (960, 540), interpolation=cv2.INTER_CUBIC)
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
 
