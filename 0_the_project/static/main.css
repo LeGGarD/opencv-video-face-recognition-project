@@ -1,0 +1,22 @@
+.rectangle{
+  background: red;
+  width: 960px;
+  height:540px;
+}
+
+.btn{
+  background-color: mediumslateblue; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 4px;
+}
+
+.btn:hover {
+  background-color: royalblue;
+  color:white;
+}

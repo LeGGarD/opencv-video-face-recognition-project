@@ -2,12 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Users recognition</title>
+    <link rel="stylesheet" type="text/css" href="static/main.css">
 </head>
 <body>
 <h1>Live streaming</h1>
-<div>
-    <img src="{{ url_for('video') }}" width="50%"/>
+
+<button id="start" class="btn" onclick="showHide('preview','video')">Start</button>
+
+<div class="rectangle">
+    <div id="preview"></div>
+    <img src="{{ url_for('video') }} " style="display: none" id="video"/>
 </div>
+
+<script src="static/main.js"></script>
 </body>
 </html>
