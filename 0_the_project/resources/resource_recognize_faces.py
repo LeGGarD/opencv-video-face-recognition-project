@@ -16,6 +16,17 @@ face_rec = RecognizeFaces()
 camera = cv2.VideoCapture(0)
 
 
+# ============================= A bit of kostyl =============================
+def smart_resize(camera: cv2.VideoCapture, needed_height: int = 540):
+    success, frame = camera.read()
+    resolution = frame.shape
+    coef = needed_height / resolution[0]
+    return int(resolution[1] * coef), int(resolution[0] * coef)
+
+frame_resolution = smart_resize(camera)
+print(frame_resolution)
+# ============================= A bit of kostyl =============================
+
 def generate_frames():
     while True:
 
@@ -24,7 +35,7 @@ def generate_frames():
         if not success:
             break
         else:
-            frame = cv2.resize(frame, (960, 540), interpolation=cv2.INTER_CUBIC)
+            frame = cv2.resize(frame, frame_resolution, interpolation=cv2.INTER_CUBIC)
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
 

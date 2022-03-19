@@ -1,10 +1,10 @@
-.rectangle{
+.rectangle {
   background: red;
   width: 960px;
   height:540px;
 }
 
-.btn{
+.btn {
   background-color: mediumslateblue; /* Green */
   border: none;
   color: white;

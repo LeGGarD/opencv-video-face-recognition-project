@@ -3,6 +3,7 @@ import face_recognition
 import cv2
 from injectable import injectable
 
+
 KNOWN_FACES_DIR = 'KNOWN_FACES'
 # UNKNOWN_FACES_DIR = 'UNKNOWN_FACES'
 TOLERANCE = 0.6
@@ -13,8 +14,8 @@ MODEL = 'hog'
 
 @injectable
 class RecognizeFaces():
-    def __init__(self):
-        self.video = cv2.VideoCapture(0)
+    # def __init__(self):
+    #     self.video = cv2.VideoCapture(0)
 
     def add_face(self):
         print('loading known faces...')
