@@ -18,16 +18,15 @@
             <th>Created at</th>
             <th>Actions</th>
         </tr>
-        {% for task in tasks %}
+        {% for user in users %}
             <tr>
                 <td>{{ user.name }}</td>
-                <td>{{ user.address.date() }}</td>
+                <td>{{ user.address }}</td>
                 <td>{{ user.created_at.date() }}</td>
                 <td>
-                    None
-<!--                    <a href="/delete/{{user.id}}">Delete</a>-->
-<!--                    <br>-->
-<!--                    <a href="/update/{{user.id}}">Update</a>-->
+                    <a href="/delete/{{user.id}}">Delete</a>
+                    <br>
+                    <a href="/update/{{user.id}}">Update</a>
                 </td>
             </tr>
         {% endfor %}

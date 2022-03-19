@@ -14,7 +14,7 @@ h1{
   font-size: 48px;
   line-height: 59px;
   text-align: center;
-  color: #000000;
+  color: white;
   margin-left:auto;
   margin-right:auto;
 }
@@ -26,7 +26,7 @@ h2{
   font-weight: 500;
   font-size: 36px;
   line-height: 44px;
-  color: #000000;
+  color: white;
   text-align:center;
 }
 
@@ -39,7 +39,7 @@ h3{
   font-size: 36px;
   line-height: 44px;
   text-align: center;
-  color: #000000;
+  color: white;
 }
 
 ul li
@@ -50,7 +50,7 @@ ul li
   font-weight: 400;
   font-size: 24px;
   line-height: 29px;
-  color: #000000;
+  color: white;
 }
 
 p
@@ -62,15 +62,15 @@ p
   font-weight: 400;
   font-size: 24px;
   line-height: 29px;
-  color: #000000;
+  color: white;
 }
 
 ul {
-  list-style-image: url(../images/Tick.svg);
+  list-style-image: url(../images/Tick1.svg);
 }
 
 .rectangle {
-  background: powderblue;
+  background: white;
   width: 960px;
   height:540px;
   margin-left:auto;
@@ -130,3 +130,24 @@ td {
 #content {
     width: 70%;
 }
+
+body {
+	background: linear-gradient(45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+	height: 100vh;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+
