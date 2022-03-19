@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../static/main.css">
+</head>
+<body>
+<div class="content">
+    <h1 style="text-align: center">Users Manager</h1>
+    {% if users|length < 1 %}
+    <h4 style="text-align: center">There is no users yet.</h4>
+    {% else %}
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Created at</th>
+            <th>Actions</th>
+        </tr>
+        {% for task in tasks %}
+            <tr>
+                <td>{{ user.name }}</td>
+                <td>{{ user.address.date() }}</td>
+                <td>{{ user.created_at.date() }}</td>
+                <td>
+                    None
+<!--                    <a href="/delete/{{user.id}}">Delete</a>-->
+<!--                    <br>-->
+<!--                    <a href="/update/{{user.id}}">Update</a>-->
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    <div class="form">
+        <form action='/' method="POST">
+            <input type="text" name="content" id="content">
+            <input type="submit" value="Add User">
+        </form>
+    </div>
+</div>
+</body>
+</html>

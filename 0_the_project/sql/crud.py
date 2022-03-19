@@ -4,6 +4,9 @@ from . import models, schemas
 def get_user(db: Session, user_id: int):
     return db.query(models.User).filter(models.User.id == user_id).first()
 
+def get_user_by_name(db: Session, name: str):
+    return db.query(models.User).filter(models.User.name == name).first()
+
 def get_user_by_address(db: Session, address: str):
     return db.query(models.User).filter(models.User.address == address).first()
 

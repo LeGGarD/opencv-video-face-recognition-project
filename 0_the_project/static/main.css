@@ -1,3 +1,8 @@
+body, html {
+    margin: 0;
+    font-family: sans-serif;
+}
+
 .rectangle {
   background: red;
   width: 960px;
@@ -19,4 +24,37 @@
 .btn:hover {
   background-color: royalblue;
   color:white;
+}
+
+.content {
+    margin: 0 auto;
+    width: 1440px;
+}
+
+table, td, th {
+    border: 1px solid #aaa;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th {
+    height: 30px;
+}
+
+td {
+    text-align: center;
+    padding: 5px;
+}
+
+.form {
+    text-align: center;
+    margin: 20px auto;
+    width: 40%;
+}
+
+#content {
+    width: 70%;
 }
