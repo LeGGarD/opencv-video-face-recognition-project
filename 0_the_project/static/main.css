@@ -1,24 +1,96 @@
-body, html {
-    margin: 0;
-    font-family: sans-serif;
+body{
+  font-family: 'Montserrat','Helvetica','Arial';
+  margin-left:80px;
+  margin-right:80px;
+}
+
+h1{
+  width: 805px;
+  height: 118px;
+  left: 237px;
+  top: 70px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 48px;
+  line-height: 59px;
+  text-align: center;
+  color: #000000;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+h2{
+  height: 44px;
+  top: 50px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 44px;
+  color: #000000;
+  text-align:center;
+}
+
+h3{
+  width:230px;
+  height: 44px;
+  left: 80px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 44px;
+  text-align: center;
+  color: #000000;
+}
+
+ul li
+{
+  height: 29px;
+  left: 115px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 29px;
+  color: #000000;
+}
+
+p
+{
+  height: 29px;
+  left: 115px;
+  top: 316px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 29px;
+  color: #000000;
+}
+
+ul {
+  list-style-image: url(../images/Tick.svg);
 }
 
 .rectangle {
-  background: red;
+  background: powderblue;
   width: 960px;
   height:540px;
+  margin-left:auto;
+  margin-right:auto;
 }
 
 .btn {
   background-color: mediumslateblue; /* Green */
   border: none;
   color: white;
-  padding: 15px 32px;
+  padding: 18px 140px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
   border-radius: 4px;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin-top: 20px;
 }
 
 .btn:hover {

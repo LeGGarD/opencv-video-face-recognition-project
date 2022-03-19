@@ -14,6 +14,7 @@ from typing import List
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/images", StaticFiles(directory="images"), name="images")
 app.include_router(router_main)
 
 templates = Jinja2Templates(directory="templates")
