@@ -4,23 +4,27 @@ import cv2
 class WebcamStream:
 
     def __init__(self):
-        self.webcam = cv2.VideoCapture(0)
+        self.webcam = None
 
-    def resize_webcam_resolution(self, camera: cv2.VideoCapture, needed_height: int = 540):
-        success, frame = camera.read()
+    def get_webcam_stream(self):
+        return cv2.VideoCapture(0)
+
+    def resize_webcam_resolution(self, frame, needed_height: int = 540):
         resolution = frame.shape
+        print(type(frame))
         coef = needed_height / resolution[0]
         return int(resolution[1] * coef), int(resolution[0] * coef)
 
     def generate_frames(self):
-        while True:
+        self.webcam = cv2.VideoCapture(0)
+        print('services.service_get_webcam_stream.generate_frames(): The webcam stream was turned on')
 
-            ## read the camera frame
+        while True:
             success, frame = self.webcam.read()
+
             if not success:
                 break
             else:
-
                 # locations = face_recognition.face_locations(frame, model='small')
                 #
                 # for face_location in locations:
@@ -29,7 +33,7 @@ class WebcamStream:
                 #     color = [0, 255, 0]
                 #     cv2.rectangle(frame, top_left, bottom_right, color, 3)
 
-                frame = cv2.resize(frame, self.resize_webcam_resolution(self.webcam), interpolation=cv2.INTER_CUBIC)
+                frame = cv2.resize(frame, self.resize_webcam_resolution(frame), interpolation=cv2.INTER_CUBIC)
                 ret, buffer = cv2.imencode('.jpg', frame)
                 frame = buffer.tobytes()
 
@@ -37,3 +41,9 @@ class WebcamStream:
                    b'Content-Type: image/jpeg\r\n\r\n'
                    + frame +
                    b'\r\n')
+
+        print('services.service_get_webcam_stream.generate_frames(): The webcam was successfully released')
+        return True
+
+    def stop_generating_frames(self):
+        self.webcam.release()
