@@ -11,7 +11,7 @@ class WebcamStream:
 
     def resize_webcam_resolution(self, frame, needed_height: int = 540):
         resolution = frame.shape
-        print(type(frame))
+        # print(type(frame)) numpy.ndarray
         coef = needed_height / resolution[0]
         return int(resolution[1] * coef), int(resolution[0] * coef)
 
