@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="form">
+    <form action='/' method="POST">
+        <input type="text" name="name" id="name">
+        <input type="text" name="address" id="address">
+        <input type="submit" value="Add User">
+    </form>
+</div>
+<div class="face_recognition">
+    <img src="{{ url_for('video') }}" id="video" style="margin-left: auto; margin-right: auto;"/>
+</div>
+</body>
+</html>
