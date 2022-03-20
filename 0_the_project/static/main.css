@@ -118,12 +118,24 @@ table {
 }
 
 th {
-    height: 30px;
+  font-size: 16px;
+  font-weight: 500;
+  background: #b9c9fe;
+  border-top: 4px solid #aabcfe;
+  border-bottom: 1px solid white;
+  color: #039;
+  padding: 8px;
 }
-
 td {
-    text-align: center;
-    padding: 5px;
+  text-align: center;
+  background: #e8edff;
+  border-bottom: 1px solid white;
+  color: #669;
+  border-top: 1px solid transparent;
+  padding: 8px;
+}
+tr:hover td {
+  background: #ccddff;
 }
 
 .form {
@@ -210,4 +222,38 @@ body {
   .header-right {
     float: none;
   }
+}
+
+
+.button {
+  font-size: 16px;
+  font-weight:500;
+  display:inline-block;
+  color:#FFF;
+  border-radius: .25em;
+  margin: 4px;
+  text-decoration: none;
+}
+
+.primary {
+  line-height:40px;
+  transition:ease-in-out .2s;
+  padding: 4px 32px;
+}
+
+.primary:hover{
+  transform:scale(1.02);
+  box-shadow:2px 2px 5px rgba(0,0,0,0.20), inset 0 0 0 99999px rgba(0,0,0,0.2);
+}
+
+.edit {
+  background: rgb(52, 152, 219);
+}
+
+.delete {
+  background: rgb(192, 57, 43);
+}
+
+.fa-solid {
+  padding-right: 12px;
 }

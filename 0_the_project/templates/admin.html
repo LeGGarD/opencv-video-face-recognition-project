@@ -7,6 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/bfb9c3600a.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
 <div class="content">
@@ -27,7 +29,8 @@
                 <td>{{ user.address }}</td>
                 <td>{{ user.created_at.date() }}</td>
                 <td>
-                    <a href="/users/delete/{{user.id}}">Delete</a>
+                    <a href="/users/delete/{{user.id}}" class="button primary delete"><i class="fa-solid fa-trash-can"></i>Delete</a>
+                    <a class="button primary edit"><i class="fa-solid fa-pen-to-square"></i>Edit</a>
                 </td>
             </tr>
         {% endfor %}
