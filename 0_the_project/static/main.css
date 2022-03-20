@@ -70,6 +70,7 @@ ul {
 }
 
 .rectangle {
+  position: relative;
   background: white;
   width: 960px;
   height:540px;
@@ -92,6 +93,7 @@ ul {
   transform: translate(-50%, 0);
   margin-top: 20px;
 }
+
 
 .btn:hover {
   background-color: royalblue;
@@ -150,4 +152,16 @@ body {
 	}
 }
 
+#preview {
+  -webkit-filter: brightness(50%);
+  filter: brightness(50%);
+}
 
+#play_icon
+{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
