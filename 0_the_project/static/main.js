@@ -10,14 +10,6 @@ button.addEventListener('click', () =>{
     }
 });
 
-function httpGet(theUrl)
-    {
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-        xmlHttp.send( null );
-        return xmlHttp.responseText;
-    }
-
  function showHide(element_id, element_id_2) {
     var xmlHttp = new XMLHttpRequest();
     if (document.getElementById(element_id, element_id_2)){
@@ -33,6 +25,7 @@ function httpGet(theUrl)
         else {
             xmlHttp.open( "GET", "video_stop", false ); // false for synchronous request
             xmlHttp.send( null );
+//            document.location.reload();
             obj.style.display = "block"; // show preview
             obj2.style.display = 'none'; // hide video
         }

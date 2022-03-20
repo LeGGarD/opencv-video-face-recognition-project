@@ -15,9 +15,11 @@ class WebcamStream:
         coef = needed_height / resolution[0]
         return int(resolution[1] * coef), int(resolution[0] * coef)
 
-    def generate_frames(self):
+    def start_generating_frames(self):
         self.webcam = cv2.VideoCapture(0)
-        print('services.service_get_webcam_stream.generate_frames(): The webcam stream was turned on')
+        print('services.service_get_webcam_stream.start_generating_frames(): The webcam stream was turned on')
+
+    def generated_frames(self):
 
         while True:
             success, frame = self.webcam.read()
@@ -42,8 +44,8 @@ class WebcamStream:
                    + frame +
                    b'\r\n')
 
-        print('services.service_get_webcam_stream.generate_frames(): The webcam was successfully released')
         return True
 
     def stop_generating_frames(self):
         self.webcam.release()
+        print('services.service_get_webcam_stream.generate_frames(): The webcam was successfully released')

@@ -19,7 +19,20 @@ def index(request: Request):
 
 @router_main.get('/video_start')
 def video_start():
-    return StreamingResponse(webcam_stream.generate_frames(), media_type='multipart/x-mixed-replace; boundary=frame')
+    try:
+        webcam_stream.start_generating_frames()
+    except:
+        print('You tried to turn on the webcam and sucked')
+    return PlainTextResponse('You just turned on the camera')
+
+
+@router_main.get('/video')
+def video():
+    if not webcam_stream.webcam:
+        response = PlainTextResponse("Webcam isn't turned on")
+    else:
+        response = StreamingResponse(webcam_stream.generated_frames(), media_type='multipart/x-mixed-replace; boundary=frame')
+    return response
 
 
 @router_main.get('/video_stop')
