@@ -1,15 +1,3 @@
-// function start() {
-//     document.getElementById('start').style.display = 'none';
-//     document.getElementById('stop').style.display = 'inline-block';
-// }
-//
-// function stop() {
-//     document.getElementById('stop').style.display = 'none';
-//     document.getElementById('stop').onclick = function() {
-//       document.getElementById('video').hidden = true;
-//     }
-//     document.getElementById('start').style.display = 'inline-block';
-// }
 const button = document.getElementById('start');
 
 button.addEventListener('click', () =>{
