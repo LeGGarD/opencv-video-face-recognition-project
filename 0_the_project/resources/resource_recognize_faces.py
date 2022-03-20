@@ -9,7 +9,7 @@ import face_recognition
 
 from services.service_recognize_faces import RecognizeFaces
 
-router_main = APIRouter()
+router_recognize_faces = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
 face_rec = RecognizeFaces()
@@ -17,7 +17,7 @@ face_rec = RecognizeFaces()
 camera = cv2.VideoCapture(0)
 
 
-# ============================= A bit of kostyl =============================
+# ============================= Webcam resolution resizer =============================
 def smart_resize(camera: cv2.VideoCapture, needed_height: int = 540):
     success, frame = camera.read()
     resolution = frame.shape
@@ -26,7 +26,7 @@ def smart_resize(camera: cv2.VideoCapture, needed_height: int = 540):
 
 frame_resolution = smart_resize(camera)
 print(frame_resolution)
-# ============================= A bit of kostyl =============================
+# ============================= Webcam resolution resizer =============================
 
 def generate_frames():
     while True:
@@ -55,11 +55,11 @@ def generate_frames():
                b'\r\n')
 
 
-@router_main.get('/', response_class=HTMLResponse)
+@router_recognize_faces.get('/', response_class=HTMLResponse)
 def index(request: Request):
     return templates.TemplateResponse('index.html', {'request': request})
 
 
-@router_main.get('/video')
+@router_recognize_faces.get('/video')
 def video():
     return StreamingResponse(generate_frames(), media_type='multipart/x-mixed-replace; boundary=frame')
