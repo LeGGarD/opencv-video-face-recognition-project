@@ -28,11 +28,11 @@ def video_start():
 
 @router_main.get('/video')
 def video():
-    if not webcam_stream.webcam:
-        response = PlainTextResponse("Webcam isn't turned on")
-    else:
-        response = StreamingResponse(webcam_stream.generated_frames(), media_type='multipart/x-mixed-replace; boundary=frame')
-    return response
+    while True:
+        if not webcam_stream.webcam:
+            pass
+        else:
+            return StreamingResponse(webcam_stream.generated_frames(), media_type='multipart/x-mixed-replace; boundary=frame')
 
 
 @router_main.get('/video_stop')
