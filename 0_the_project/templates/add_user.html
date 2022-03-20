@@ -2,18 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Add User</title>
+    <link rel="stylesheet" type="text/css" href="/static/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class="form">
-    <form action='/' method="POST">
-        <input type="text" name="name" id="name">
-        <input type="text" name="address" id="address">
-        <input type="submit" value="Add User">
-    </form>
-</div>
 <div class="face_recognition">
     <img src="{{ url_for('video') }}" id="video" style="margin-left: auto; margin-right: auto;"/>
 </div>
+<button id="start" class="btn" onclick="">Start Face Recognition</button>
+<!-- Send button needs to be pushed 5 times. Each time it will upload a photo -->
+<button id="send" class="btn" onclick="">Send 1/5</button>
+
+
+<div class="form">
+    <form action='/' method="POST">
+        <input type="text" name="name" placeholder="Name Surname" id="name">
+        <input type="text" name="address" placeholder="Address" id="address" >
+        <input type="submit" value="Add to DB">
+    </form>
+</div>
+
+<script src="/static/main.js"></script>
 </body>
 </html>
