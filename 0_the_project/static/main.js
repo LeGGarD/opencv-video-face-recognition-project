@@ -10,19 +10,30 @@ button.addEventListener('click', () =>{
     }
 });
 
+function httpGet(theUrl)
+    {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+        xmlHttp.send( null );
+        return xmlHttp.responseText;
+    }
+
  function showHide(element_id, element_id_2) {
+    var xmlHttp = new XMLHttpRequest();
     if (document.getElementById(element_id, element_id_2)){
         var obj = document.getElementById(element_id);
         var obj2 = document.getElementById(element_id_2);
         if (obj2.style.display == "none") {
+            xmlHttp.open( "GET", "video_start", false ); // false for synchronous request
+            xmlHttp.send( null );
             obj.style.display = "none"; // hide preview
-            // document.getElementById("video").src="{{ url_for('video_start') }}";
             obj2.style.display = "block"; // show video
 
         }
         else {
+            xmlHttp.open( "GET", "video_stop", false ); // false for synchronous request
+            xmlHttp.send( null );
             obj.style.display = "block"; // show preview
-            // document.getElementById("video").src="{{ url_for('video_stop') }}";
             obj2.style.display = 'none'; // hide video
         }
     }
