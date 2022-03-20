@@ -9,35 +9,42 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
 </head>
+<nav class="header">
+      <a href="/" class="logo">Дипломний проект</a>
+      <div class="header-right">
+          <a href="/admin">Адмін панель</a>
+          <a href="#contact">Something</a>
+      </div>
+</nav>
 <body>
+    <header>
+        <div>
+            <h1>Сервіс з ідентифікації облич мешканців ЖК</h1>
+        </div>
 
-<div>
-    <h1>Сервіс з ідентифікації облич мешканців ЖК</h1>
-</div>
+        <div>
+            <h3>Як працює?</h3>
+            <ul class="arrows">
+                <li>Маємо БД з даними про мешканців ЖК </li>
+                <li>Обличчя людини розпізнається на камері</li>
+                <li>Програма вираховує, чи існує дане обличчя в БД ЖК</li>
+                <li>Людина або пропускається в ЖК, або ні</li>
+            </ul>
+        </div>
 
-<div>
-    <h3>Як працює?</h3>
-    <ul>
-        <li>Маємо БД з даними про мешканців ЖК </li>
-        <li>Обличчя людини розпізнається на камері</li>
-        <li>Програма вираховує, чи існує дане обличчя в БД ЖК</li>
-        <li>Людина або пропускається в ЖК, або ні</li>
-    </ul>
-</div>
+        <div>
+            <h2>Приклад ідентифікації</h2>
+        </div>
 
-<div>
-    <h2>Приклад ідентифікації</h2>
-</div>
+        <div class="rectangle">
+            <img src="../images/person.jpg" id="preview"/>
+            <img src="{{ url_for('video') }}" id="video" style="display: none; margin-left: auto; margin-right: auto;"/>
+        </div>
 
-<div class="rectangle">
-    <img src="../images/person.jpg" id="preview"/>
-    <img src="{{ url_for('video') }}" id="video" style="display: none; margin-left: auto; margin-right: auto;"/>
-</div>
-
-<div>
-  <button id="start" class="btn" onclick="showHide('preview','video')">Start</button>
-</div>
-
+        <div>
+          <button id="start" class="btn" onclick="showHide('preview','video')">Start</button>
+        </div>
+    </header>
 <script src="/static/main.js"></script>
 </body>
 </html>

@@ -49,7 +49,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user_name = crud.get_user_by_name(db, name=user.name)
     db_user_address = crud.get_user_by_address(db, address=user.address)
     if db_user_address and db_user_name:
-        raise HTTPException(status_code=400, detail='Name and address is already registred')
+        raise HTTPException(status_code=400, detail='Name and address is already registered')
     return crud.create_user(db=db, user=user)
 
 

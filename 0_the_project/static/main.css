@@ -3,7 +3,6 @@ body{
   margin-left:80px;
   margin-right:80px;
   margin-bottom:360px;
-  margin-top:50px;
 }
 
 h1{
@@ -67,7 +66,7 @@ p
   color: white;
 }
 
-ul {
+.arrows {
   list-style-image: url(../images/Tick1.svg);
 }
 
@@ -88,7 +87,7 @@ ul {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
+  font-size: 20px;
   border-radius: 4px;
   position: relative;
   left: 50%;
@@ -165,25 +164,54 @@ body {
   filter: brightness(50%);
 }
 
-/*.btn{*/
-/*  border-radius: 3px;*/
-/*  background: #e0e5ec;*/
-/*  display: flex;*/
-/*  flex-direction: column;*/
-/*  justify-content: center;*/
-/*  align-items: center;*/
-/*  -webkit-tap-highlight-color: rgba(0,0,0,0);*/
-/*  -webkit-tap-highlight-color: transparent;*/
-/*  font-size: 26px;*/
-/*  color: #666;*/
-/*  text-decoration: none;*/
-/*}*/
-/*.btn:hover{*/
-/*background: radial-gradient(circle,  #0ff 0%, #e0e5ec 60%);*/
-/*  color: rgba(102,102,102,.5);*/
-/*  animation: colorchange 3s linear infinite;*/
-/*}*/
-
 @keyframes colorchange {
 	to {filter: hue-rotate(360deg);}
+}
+
+
+/* Style the header with a grey background and some padding */
+.header {
+  overflow: hidden;
+  padding: 20px 10px;
+}
+
+/* Style the header links */
+.header a {
+  float: left;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 25px;
+  border-radius: 4px;
+}
+
+/* Style the logo link (notice that we set the same value of line-height and font-size to prevent the header to increase when the font gets bigger */
+.header a.logo {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+/* Change the background color on mouse-over */
+.header a:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+/* Float the link section to the right */
+.header-right {
+  float: right;
+}
+
+/* Add media queries for responsiveness - when the screen is 500px wide or less, stack the links on top of each other */
+@media screen and (max-width: 500px) {
+  .header a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+  .header-right {
+    float: none;
+  }
 }
