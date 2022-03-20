@@ -29,7 +29,6 @@ print(frame_resolution)
 # ============================= A bit of kostyl =============================
 
 def generate_frames():
-    counter = 0
     while True:
 
         ## read the camera frame
@@ -38,19 +37,17 @@ def generate_frames():
             break
         else:
 
-            locations = face_recognition.face_locations(frame, model='small')
-
-            for face_location in locations:
-                top_left = (face_location[3], face_location[0])
-                bottom_right = (face_location[1], face_location[2])
-                color = [0, 255, 0]
-                cv2.rectangle(frame, top_left, bottom_right, color, 3)
+            # locations = face_recognition.face_locations(frame, model='small')
+            #
+            # for face_location in locations:
+            #     top_left = (face_location[3], face_location[0])
+            #     bottom_right = (face_location[1], face_location[2])
+            #     color = [0, 255, 0]
+            #     cv2.rectangle(frame, top_left, bottom_right, color, 3)
 
             frame = cv2.resize(frame, frame_resolution, interpolation=cv2.INTER_CUBIC)
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
-            print(counter)
-            counter += 1
 
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n'
