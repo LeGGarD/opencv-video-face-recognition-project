@@ -57,16 +57,6 @@ def video_start():
         print('You tried to turn on the webcam and sucked')
     return PlainTextResponse('You just turned on the camera')
 
-
-# @router_main.get('/video')
-# def video():
-#     while True:
-#         if not webcam_stream.webcam:
-#             pass
-#         else:
-#             return StreamingResponse(webcam_stream.generated_frames(), media_type='multipart/x-mixed-replace; boundary=frame')
-
-
 @router_main.websocket("/ws_video")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
@@ -75,8 +65,7 @@ async def websocket_endpoint(websocket: WebSocket):
             await asyncio.sleep(0.04)
             await websocket.send_bytes(webcam_stream.generated_frame())
         except:
-            await asyncio.sleep(2)
-            print('Webcam is turned off')
+            await asyncio.sleep(0.1)
 
 @router_main.get('/video_stop')
 def video_stop():
