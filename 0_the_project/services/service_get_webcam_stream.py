@@ -39,12 +39,18 @@ class WebcamStream:
                 ret, buffer = cv2.imencode('.jpg', frame)
                 frame = buffer.tobytes()
 
-            yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n'
-                   + frame +
-                   b'\r\n')
+            yield b'--frame\r\nContent-Type: image/jpeg\r\n\r\n' + frame + b'\r\n'
 
-        return True
+    def generated_frame(self):
+        success, frame = self.webcam.read()
+
+        if not success:
+            return None
+        else:
+            frame = cv2.resize(frame, self.resize_webcam_resolution(frame), interpolation=cv2.INTER_CUBIC)
+            ret, buffer = cv2.imencode('.jpg', frame)
+            frame = buffer.tobytes()
+            return b'--frame\r\nContent-Type: image/jpeg\r\n\r\n' + frame + b'\r\n'
 
     def stop_generating_frames(self):
         self.webcam.release()
