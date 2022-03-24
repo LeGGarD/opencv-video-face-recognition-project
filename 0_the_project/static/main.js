@@ -32,4 +32,3 @@ button.addEventListener('click', () =>{
     }
     else alert("Элемент с id: " + element_id + " не найден!");
 }
-

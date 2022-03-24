@@ -11,6 +11,12 @@
 
 </head>
 <body>
+<nav class="header">
+      <a href="/" class="logo">Дипломний проект</a>
+      <div class="header-right">
+          <a href="/admin" class="activated">Адмін панель</a>
+      </div>
+</nav>
 <div class="content">
     <h1 style="text-align: center">Адмін панель</h1>
     {% if users|length < 1 %}
@@ -25,12 +31,12 @@
         </tr>
         {% for user in users %}
             <tr>
-                <td>{{ user.name }}</td>
-                <td>{{ user.address }}</td>
-                <td>{{ user.created_at.date() }}</td>
-                <td>
-                    <a href="/users/delete/{{user.id}}" class="button primary delete"><i class="fa-solid fa-trash-can"></i>Delete</a>
-                    <a class="button primary edit"><i class="fa-solid fa-pen-to-square"></i>Edit</a>
+                <td class="name_address">{{ user.name }}</td>
+                <td class="name_address">{{ user.address }}</td>
+                <td class="acion_date">{{ user.created_at.date() }}</td>
+                <td class="action_date">
+                    <a href="/users/delete/{{user.id}}" class="button primary delete"><i class="fa-solid fa-trash-can"></i></a>
+                    <a class="button primary edit"><i class="fa-solid fa-pen-to-square"></i></a>
                 </td>
             </tr>
         {% endfor %}

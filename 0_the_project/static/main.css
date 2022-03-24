@@ -2,7 +2,7 @@ body{
   font-family: 'Montserrat','Helvetica','Arial';
   margin-left:80px;
   margin-right:80px;
-  margin-bottom:360px;
+  margin-bottom:100px;
 }
 
 h1{
@@ -93,6 +93,7 @@ p
   left: 50%;
   transform: translate(-50%, 0);
   margin-top: 20px;
+  margin-bottom:60px;
 }
 
 
@@ -127,15 +128,27 @@ th {
   padding: 8px;
 }
 td {
-  text-align: center;
+  text-align: left;
   background: #e8edff;
   border-bottom: 1px solid white;
   color: #669;
   border-top: 1px solid transparent;
-  padding: 8px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 6px;
+  padding-top:6px;
 }
 tr:hover td {
   background: #ccddff;
+}
+
+.name_address{
+  width:38.8%;
+}
+
+.action_date
+{
+  text-align:center;
 }
 
 .form {
@@ -149,7 +162,7 @@ tr:hover td {
 }
 
 body {
-	background: linear-gradient(45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+	background: linear-gradient(45deg, #EE4E4E, #4E7AEE, #EE4EAE);
 	background-size: 400% 400%;
 	animation: gradient 15s ease infinite;
 	height: 100vh;
@@ -204,13 +217,21 @@ body {
 /* Change the background color on mouse-over */
 .header a:hover {
   background-color: rgba(255, 255, 255, 0.3);
-  color: white;
+  color:white;
 }
 
 /* Float the link section to the right */
 .header-right {
   float: right;
 }
+
+.header-right .activated
+{
+  color:black;
+  background-color:white;
+}
+
+
 
 /* Add media queries for responsiveness - when the screen is 500px wide or less, stack the links on top of each other */
 @media screen and (max-width: 500px) {
@@ -238,7 +259,7 @@ body {
 .primary {
   line-height:40px;
   transition:ease-in-out .2s;
-  padding: 4px 32px;
+  padding: 4px 16px;
 }
 
 .primary:hover{
@@ -252,8 +273,6 @@ body {
 
 .delete {
   background: rgb(192, 57, 43);
+  padding:4px 18px;
 }
 
-.fa-solid {
-  padding-right: 12px;
-}
