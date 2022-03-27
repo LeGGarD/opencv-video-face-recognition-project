@@ -33,6 +33,8 @@ while True:
 
     locations = face_recognition.face_locations(image, model=MODEL)
     encodings = face_recognition.face_encodings(image, locations)
+    print(encodings)
+    print(type(encodings))
     # image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
     for face_encoding, face_location in zip(encodings, locations):

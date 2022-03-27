@@ -1,8 +1,8 @@
 import os
 import face_recognition
 import cv2
-from injectable import injectable
-
+from typing import List
+import numpy as np
 
 KNOWN_FACES_DIR = 'KNOWN_FACES'
 # UNKNOWN_FACES_DIR = 'UNKNOWN_FACES'
@@ -12,10 +12,15 @@ FONT_THIKNESS = 2
 MODEL = 'hog'
 
 
-@injectable
 class RecognizeFaces():
-    # def __init__(self):
-    #     self.video = cv2.VideoCapture(0)
+
+    def __init__(self, model: str = 'hog'):
+        self.model = model
+
+    def recognize_faces(self, frame: np.ndarray) -> List[np.ndarray]:
+        locations = face_recognition.face_locations(frame, model=self.model)
+        encodings = face_recognition.face_encodings(frame, locations)
+        return encodings
 
     def add_face(self):
         print('loading known faces...')
@@ -29,7 +34,6 @@ class RecognizeFaces():
                 encoding = face_recognition.face_encodings(image)
                 known_faces.append(encoding[0])
                 known_names.append(name)
-
 
     def load_faces(self):
         pass
@@ -61,7 +65,8 @@ class RecognizeFaces():
                     top_left = (face_location[3], face_location[2])
                     bottom_right = (face_location[1], face_location[2] + 22)
                     cv2.rectangle(image, top_left, bottom_right, color, cv2.FILLED)
-                    cv2.putText(image, match, (face_location[3] + 10, face_location[2] + 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
+                    cv2.putText(image, match, (face_location[3] + 10, face_location[2] + 15), cv2.FONT_HERSHEY_SIMPLEX,
+                                0.5,
                                 (200, 200, 200), FONT_THIKNESS)
 
             cv2.imshow('Webcam', image)

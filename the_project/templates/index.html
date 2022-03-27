@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Users recognition</title>
+{% endblock %}
+
+{% block body %}
+<body onload="openSocket()">
+<header>
+    <div>
+        <h1>Сервіс з ідентифікації облич мешканців ЖК</h1>
+    </div>
+
+    <div>
+        <h3>Як працює?</h3>
+        <ul class="arrows">
+            <li>Маємо БД з даними про мешканців ЖК</li>
+            <li>Обличчя людини розпізнається на камері</li>
+            <li>Програма вираховує, чи існує дане обличчя в БД ЖК</li>
+            <li>Людина або пропускається в ЖК, або ні</li>
+        </ul>
+    </div>
+
+    <div>
+        <h2>Приклад ідентифікації</h2>
+    </div>
+
+    <div style="text-align: center" class="rectangle">
+        <img id="preview" src="../images/person.jpg"/>
+        <canvas id="video" width="720" height="540" style="display: none; margin-left: auto; margin-right: auto;"/>
+    </div>
+    <div>
+        <button id="start" class="btn" onclick="showHide('preview', 'video')">Start</button>
+    </div>
+</header>
+</body>
+{% endblock %}
