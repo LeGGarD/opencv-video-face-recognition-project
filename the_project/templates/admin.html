@@ -1,48 +1,48 @@
 {% extends "base.html" %}
 
 {% block head %}
-<title>Admin</title>
-<script src="https://kit.fontawesome.com/bfb9c3600a.js" crossorigin="anonymous"></script>
+    <title>Admin</title>
+    <script src="https://kit.fontawesome.com/bfb9c3600a.js" crossorigin="anonymous"></script>
 {% endblock %}
 
 {% block body %}
-<body>
-<div class="content">
-    <h1 style="text-align: center">Адмін панель</h1>
-    <a href="/add_user" style="text-align: center">Додати користувача (beta)</a>
-    {% if users|length < 1 %}
-    <h4 style="text-align: center">There is no users yet.</h4>
-    {% else %}
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Created at</th>
-            <th>Actions</th>
-        </tr>
-        {% for user in users %}
-        <tr>
-            <td class="name_address">{{ user.name }}</td>
-            <td class="name_address">{{ user.address }}</td>
-            <td class="acion_date">{{ user.created_at.date() }}</td>
-            <td class="action_date">
-                <a href="/admin/users/delete/{{user.id}}" class="button primary delete"><i
-                        class="fa-solid fa-trash-can"></i></a>
-                <a class="button primary edit"><i class="fa-solid fa-pen-to-square"></i></a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-    {% endif %}
+    <body>
+    <div class="content">
+        <h1 style="text-align: center">Адмін панель</h1>
+        <a href="/add_user_step_1" style="text-align: center">Додати користувача (beta)</a>
+        {% if users|length < 1 %}
+            <h4 style="text-align: center">There is no users yet.</h4>
+        {% else %}
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Created at</th>
+                    <th>Actions</th>
+                </tr>
+                {% for user in users %}
+                    <tr>
+                        <td class="name_address">{{ user.name }}</td>
+                        <td class="name_address">{{ user.address }}</td>
+                        <td class="acion_date">{{ user.created_at.date() }}</td>
+                        <td class="action_date">
+                            <a href="/admin/users/delete/{{ user.id }}" class="button primary delete"><i
+                                    class="fa-solid fa-trash-can"></i></a>
+                            <a class="button primary edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
 
-    <div class="form">
-        <form action="/admin/submit_form/" method="POST">
-            <!--                           name args are needed for backend -->
-            <input type="text" name="name" id="name" placeholder="Name">
-            <input type="text" name="address" id="address" placeholder="Address">
-            <input type="submit" value="Add User">
-        </form>
+        <div class="form">
+            <form action="/admin/submit_form/" method="POST">
+                <!--                           name args are needed for backend -->
+                <input type="text" name="name" id="name" placeholder="Name">
+                <input type="text" name="address" id="address" placeholder="Address">
+                <input type="submit" value="Add User">
+            </form>
+        </div>
     </div>
-</div>
-</body>
+    </body>
 {% endblock %}

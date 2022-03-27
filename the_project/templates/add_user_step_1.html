@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Add User</title>
+{% endblock %}
+
+{% block body %}
+<div id="wrap" class="input">
+    <section class="input-content">
+        <h2>Enter your Data</h2>
+        <div class="input-content-wrap">
+            <dl class="inputbox">
+                <dt class="inputbox-title">Input Name</dt>
+                <dd class="inputbox-content">
+                    <input id="input0" type="text" required/>
+                    <label for="input0">Name & Surname</label>
+                    <span class="underline"></span>
+                </dd>
+            </dl>
+            <dl class="inputbox">
+                <dt class="inputbox-title">Input Address</dt>
+                <dd class="inputbox-content">
+                    <input id="input1" type="password" required/>
+                    <label for="input1">Address</label>
+                    <span class="underline"></span>
+                </dd>
+            </dl>
+            <div class="btns">
+                <button class="btnn btnn-confirm">Send</button>
+                <button class="btnn btnn-cancel">Reset</button>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
