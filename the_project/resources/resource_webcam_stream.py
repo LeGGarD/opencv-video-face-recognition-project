@@ -1,9 +1,12 @@
-from fastapi import APIRouter, WebSocket
+from fastapi import APIRouter, WebSocket, Depends
 from fastapi.responses import PlainTextResponse
 import asyncio
 
+from sqlalchemy.orm import Session
+
 from services.service_get_webcam_stream import WebcamStream
 from services.service_recognize_faces import RecognizeFaces
+from sql import crud, schemas
 
 router_webcam_stream = APIRouter()
 
@@ -32,11 +35,4 @@ def video_stop():
     return PlainTextResponse('You just turned off the camera')
 
 
-@router_webcam_stream.get('/recognize_face')
-def recognize_face():
-    frame = webcam_stream.generated_frame()
-    encodings = recognize_faces.recognize_faces(frame)
-    result = []
-    for encoding in encodings:
-        result.append(str(list(encoding)))
-    return result
+
