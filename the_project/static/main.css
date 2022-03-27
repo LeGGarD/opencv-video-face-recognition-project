@@ -280,9 +280,8 @@ body {
 #wrap{
   width: 100%;
   max-width:900px;
-  margin:0 auto 60px;
+  margin:60px auto 60px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.25);
-  margin-top: 60px;
 }
 
 .input-content {
@@ -326,7 +325,7 @@ body {
   height: 30px;
   box-sizing: border-box;
   line-height: 30px;
-  font-size: 14px;
+  font-size: 16px;
   border: 0;
   background: none;
   border-bottom: 1px solid #ccc;
