@@ -161,35 +161,6 @@ tr:hover td {
     width: 70%;
 }
 
-/*body {*/
-/*	background: linear-gradient(45deg, #EE4E4E, #4E7AEE, #EE4EAE);*/
-/*	background-size: 400% 400%;*/
-/*	animation: gradient 15s ease infinite;*/
-/*	height: 100vh;*/
-/*}*/
-
-/*@keyframes gradient {*/
-/*	0% {*/
-/*		background-position: 0% 50%;*/
-/*	}*/
-/*	50% {*/
-/*		background-position: 100% 50%;*/
-/*	}*/
-/*	100% {*/
-/*		background-position: 0% 50%;*/
-/*	}*/
-/*}*/
-
-/*#preview {*/
-/*  -webkit-filter: brightness(50%);*/
-/*  filter: brightness(50%);*/
-/*}*/
-
-/*@keyframes colorchange {*/
-/*	to {filter: hue-rotate(360deg);}*/
-/*}*/
-
-
 /* Style the header with a grey background and some padding */
 .header {
   overflow: hidden;
