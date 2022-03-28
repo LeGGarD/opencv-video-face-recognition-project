@@ -10,13 +10,18 @@
     <script src="/static/main.js"></script>
     {% block head %}{% endblock %}
 </head>
+
 <body>
+    <div id="stars"></div>
+    <div id="stars2"></div>
+
     <nav class="header">
         <a href="/" class="logo">Дипломний проект</a>
         <div class="header-right">
             <a href="/admin">Адмін панель</a>
         </div>
     </nav>
+
     {% block body %}{% endblock %}
 </body>
 </html>
