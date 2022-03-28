@@ -45,8 +45,6 @@ async def websocket_endpoint(websocket: WebSocket):
                 await manager.broadcast(frame)
     except WebSocketDisconnect:
         manager.disconnect(websocket)
-        frame = await webcam_stream.generated_frame_bytes()
-        await manager.broadcast(frame)
 
 
 @router_webcam_stream.get('/video_start')
