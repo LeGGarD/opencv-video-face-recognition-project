@@ -18,57 +18,32 @@ function closeSocket() {
     websocket.close();
 }
 
-//function showHide(id_1, id_2) {
-//    var xmlHttp = new XMLHttpRequest();
-//    var button = document.getElementById('start');
-//    if (document.getElementById(id_1, id_2)){
-//        var obj = document.getElementById(id_1);
-//        var obj2 = document.getElementById(id_2);
-//
-//        if (obj2.style.display == "none") {
-//            openSocket();
-//            xmlHttp.open( "GET", "/video_start", false ); // false for synchronous request
-//            xmlHttp.send( null );
-//            obj.style.display = "none"; // hide preview
-//            obj2.style.display = "inline-block"; // show video
-//            button.innerText = 'Stop';
-//            button.dataset.trigger = false;
-//        }
-//        else {
-//            xmlHttp.open( "GET", "/video_stop", false ); // false for synchronous request
-//            xmlHttp.send( null );
-//            closeSocket()
-//            obj.style.display = "block"; // show preview
-//            obj2.style.display = 'none'; // hide video
-//            button.innerText = 'Start';
-//            button.dataset.trigger = true;
-//        }
-//    }
-//    else alert("Элемент с id: " + element_id + " не найден!");
-//}
-
 function showHide(id_1, id_2) {
     var xmlHttp = new XMLHttpRequest();
-    if (document.getElementById(id_1, id_2)) {
+    var button = document.getElementById('start');
+    if (document.getElementById(id_1, id_2)){
         var obj = document.getElementById(id_1);
         var obj2 = document.getElementById(id_2);
 
         if (obj2.style.display == "none") {
-            xmlHttp.open("GET", "/video_start", false); // false for synchronous request
-            xmlHttp.send(null);
+            openSocket();
+            xmlHttp.open( "GET", "/video_start", false ); // false for synchronous request
+            xmlHttp.send( null );
             obj.style.display = "none"; // hide preview
             obj2.style.display = "inline-block"; // show video
             button.innerText = 'Stop';
             button.dataset.trigger = false;
-        } else {
-            xmlHttp.open("GET", "/video_stop", false); // false for synchronous request
-            xmlHttp.send(null);
+        }
+        else {
+            xmlHttp.open( "GET", "/video_stop", false ); // false for synchronous request
+            xmlHttp.send( null );
             obj.style.display = "block"; // show preview
             obj2.style.display = 'none'; // hide video
             button.innerText = 'Start';
             button.dataset.trigger = true;
         }
-    } else alert("Элемент с id: " + element_id + " не найден!");
+    }
+    else alert("Элемент с id: " + element_id + " не найден!");
 }
 
 
@@ -76,8 +51,6 @@ function parsePhoto() {
     var xmlHttp = new XMLHttpRequest();
     var user_id = getElementById('user_id');
     var path = '/add_user_step_2/recognize_face/' + user_id;
-    xmlHttp.open("GET", path, false); // false for synchronous request
-    xmlHttp.send(null);
+    xmlHttp.open( "GET", path, false ); // false for synchronous request
+    xmlHttp.send( null );
 }
-
-
