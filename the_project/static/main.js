@@ -6,10 +6,11 @@ function openSocket() {
     };
     websocket.onmessage = (event) => {
         let context = msg.getContext("2d");
-        let image = new Image();
+        let image = new Image(msg.width, msg.height);
         image.src = URL.createObjectURL(event.data);
+        image.style = "margin-left: auto; margin-right: auto;"
         image.onload = (event) => {
-            context.drawImage(image, 0, 0, msg.width, msg.height);
+            context.drawImage(image, 0, 0);
         };
     };
 }

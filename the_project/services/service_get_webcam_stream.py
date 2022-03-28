@@ -46,7 +46,7 @@ class WebcamStream():
                 #     bottom_right = (face_location[1], face_location[2])
                 #     color = [0, 255, 0]
                 #     cv2.rectangle(frame, top_left, bottom_right, color, 3)
-
+                frame = cv2.flip(frame, 1)
                 frame = cv2.resize(frame, self.webcam_resolution, interpolation=cv2.INTER_CUBIC)
                 ret, buffer = cv2.imencode('.jpg', frame)
                 return buffer
