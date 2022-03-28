@@ -26,9 +26,9 @@ function showHide(id_1, id_2) {
         var obj2 = document.getElementById(id_2);
 
         if (obj2.style.display == "none") {
-            openSocket();
             xmlHttp.open( "GET", "/video_start", false ); // false for synchronous request
             xmlHttp.send( null );
+            openSocket();
             obj.style.display = "none"; // hide preview
             obj2.style.display = "inline-block"; // show video
             button.innerText = 'Stop';
