@@ -1,6 +1,6 @@
 import time
 import cv2
-from typing import Tuple
+from typing import Tuple, Optional
 import numpy
 import face_recognition
 import numpy as np
@@ -10,7 +10,6 @@ class WebcamStream():
 
     def __init__(self):
         self.webcam = None
-        self.webcam_resolution = None
 
     def resize_webcam_resolution(self, frame: numpy.ndarray, needed_height: int = 540) -> Tuple[int, int]:
         resolution = frame.shape
@@ -19,23 +18,24 @@ class WebcamStream():
 
     def start_stream(self) -> bool:
         self.webcam = cv2.VideoCapture(0)
+        self.webcam.set(cv2.CAP_PROP_FRAME_WIDTH, 960)
+        self.webcam.set(cv2.CAP_PROP_FRAME_HEIGHT, 540)
+        self.webcam.set(cv2.CAP_PROP_FPS, 30)
         _, frame = self.webcam.read()
-        self.webcam_resolution = self.resize_webcam_resolution(frame)
-        print(f'Webcam has turned on! With {self.webcam_resolution} resolution')
         return True
 
-    async def generated_frame_bytes(self) -> bytes:
+    async def generated_frame_bytes(self) -> Optional[bytes]:
         while True:
             buffer = self.generated_frame()
             if buffer is not False:
                 if buffer is True:
                     return None
-                    break
+                    # break
                 frame = buffer.tobytes()
                 return frame
 
 
-    def generated_frame(self) -> np.ndarray:
+    def generated_frame(self) -> Optional[np.ndarray]:
         try:
             success, frame = self.webcam.read()
             if frame is not None:
@@ -47,8 +47,7 @@ class WebcamStream():
                 #     color = [0, 255, 0]
                 #     cv2.rectangle(frame, top_left, bottom_right, color, 3)
                 frame = cv2.flip(frame, 1)
-                frame = cv2.resize(frame, self.webcam_resolution, interpolation=cv2.INTER_CUBIC)
-                ret, buffer = cv2.imencode('.jpg', frame)
+                ret, buffer = cv2.imencode('.png', frame)
                 return buffer
             else:
                 return True

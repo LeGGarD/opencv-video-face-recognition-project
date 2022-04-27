@@ -1,9 +1,40 @@
+//function getPngDimensions(string) {
+//    console.log(string)
+//    var base64 = btoa(string)
+//    console.log(typeof base64)
+//    console.log(base64)
+//    let header = base64.slice(0, 50)
+//    let uint8 = Uint8Array.from(atob(header), c => c.charCodeAt(0))
+//    let dataView = new DataView(uint8.buffer, 0, 28)
+//    console.log(dataView)
+//    return {
+//    "width": dataView.getInt32(16),
+//    "height": dataView.getInt32(20)
+//    }
+//}
+
+//function openSocket() {
+//    let websocket = new WebSocket("ws://127.0.0.1:8000/ws_video");
+//    let msg = document.getElementById("video");
+//    var video_resolution = new Object();
+//    websocket.onmessage = (event) => {
+//
+//        if (Object.keys(video_resolution).length < 2){
+//            video_resolution = getPngDimensions(event.data);
+//            console.log(video_resolution);
+//        };
+//        let context = msg.getContext("2d");
+//        let image = new Image(video_resolution["width"], video_resolution["height"]);
+//        image.src = URL.createObjectURL(event.data);
+//        image.onload = (event) => {
+//            context.drawImage(image, 0, 0);
+//        };
+//    };
+//}
+
 function openSocket() {
     let websocket = new WebSocket("ws://127.0.0.1:8000/ws_video");
     let msg = document.getElementById("video");
-    websocket.onopen = (event) => {
-        document.getElementById("status").innerHTML = "WebSocket connection is OPENED";
-    };
     websocket.onmessage = (event) => {
         let context = msg.getContext("2d");
         let image = new Image(msg.width, msg.height);
