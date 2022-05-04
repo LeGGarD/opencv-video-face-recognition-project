@@ -53,3 +53,9 @@ def recognize_face(user_id: int, db: Session = Depends(crud.get_db)):
         face_encoding.face_encoding = str(list(encodings[0]))
         crud.create_face_encoding(db=db, face_encoding=face_encoding, user_id=user_id)
         return True
+
+
+##################################################################################
+@router_add_user.get('/multi_form_test/', response_class=HTMLResponse)
+def get_add_user_page(request: Request):
+    return templates.TemplateResponse('multi_form_temp.html', {'request': request})

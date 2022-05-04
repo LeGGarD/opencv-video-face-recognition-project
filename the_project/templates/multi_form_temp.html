@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Registraion Form</title>
+{% endblock %}
+
+{% block body %}
+<!-- 'form' should have class 'form' later !!!!!!!!!!!!!!!!!!!!1 -->
+<form action="/admin/submit_form/" method="POST" class="">
+    <h1 class="text-center">Registration Form</h1>
+    <!-- Progress bar -->
+    <div class="progressbar">
+        <div class="progress" id="progress"></div>
+        <div class="progress-step progress-step-active" data-title="Contact"></div>
+        <div class="progress-step" data-title="Recognition"></div>
+        <div class="progress-step" data-title="Finish"></div>
+    </div>
+
+    <!-- Steps -->
+    <div class="form-step form-step-active">
+        <div class="input-group">
+            <label for="username" style="color: white">Name</label>
+            <input type="text" name="name" id="username"/>
+        </div>
+        <div class="input-group">
+            <label for="position" style="color: white">Address</label>
+            <input type="text" name="address" id="position"/>
+        </div>
+        <div class="">
+            <a href="#" class="btn2 btn-next width-50 ml-auto" onclick="buttonNext()">Next</a>
+        </div>
+    </div>
+
+    <div class="form-step">
+        <h2>Face rec here</h2>
+        <div style="text-align: center" class="rectangle">
+            <img id="preview" src="../images/person.jpg"/>
+            <canvas id="video" width="960" height="540" style="display: none; margin-left: auto; margin-right: auto;"/>
+        </div>
+        <div>
+            <a id="start" class="btn" onclick="showHide('preview', 'video')">Start</a>
+        </div>
+        <div class="btns-group">
+            <a href="#" class="btn2 btn-prev" onclick="buttonPrevios()">Previous</a>
+            <a href="#" class="btn2 btn-next" onclick="buttonNext()">Next</a>
+        </div>
+    </div>
+
+    <div class="form-step">
+        <h2>User was succesfully added!</h2>
+        <div class="btns-group">
+            <a href="#" class="btn2 btn-prev" onclick="buttonPrevios()">Previous</a>
+            <input type="submit" value="Submit" class="btn2"/>
+        </div>
+    </div>
+</form>
+{% endblock %}
