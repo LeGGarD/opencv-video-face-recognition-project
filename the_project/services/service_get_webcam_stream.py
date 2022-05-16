@@ -1,6 +1,6 @@
 import time
 import cv2
-from typing import Tuple, Optional
+from typing import Tuple
 import numpy
 import face_recognition
 import numpy as np
@@ -21,10 +21,10 @@ class WebcamStream():
         self.webcam.set(cv2.CAP_PROP_FRAME_WIDTH, 960)
         self.webcam.set(cv2.CAP_PROP_FRAME_HEIGHT, 540)
         self.webcam.set(cv2.CAP_PROP_FPS, 30)
-        _, frame = self.webcam.read()
+        # _, frame = self.webcam.read()
         return True
 
-    async def generated_frame_bytes(self) -> Optional[bytes]:
+    async def generated_frame_bytes(self) -> bytes or bool:
         while True:
             buffer = self.generated_frame()
             if buffer is not False:
@@ -34,8 +34,7 @@ class WebcamStream():
                 frame = buffer.tobytes()
                 return frame
 
-
-    def generated_frame(self) -> Optional[np.ndarray]:
+    def generated_frame_raw(self) -> np.ndarray or bool:
         try:
             success, frame = self.webcam.read()
             if frame is not None:
@@ -47,14 +46,19 @@ class WebcamStream():
                 #     color = [0, 255, 0]
                 #     cv2.rectangle(frame, top_left, bottom_right, color, 3)
                 frame = cv2.flip(frame, 1)
-                ret, buffer = cv2.imencode('.png', frame)
-                return buffer
+                return frame
             else:
                 return True
         except AttributeError as e:
-            print('service_get_webcam_stream.generated_frame_bytes(): Waiting webcam to turn on...')
+            print(e, '\n' + 'service_get_webcam_stream.generated_frame_bytes(): Waiting webcam to turn on...')
             time.sleep(1.5)
             return False
+
+    def generated_frame(self) -> np.ndarray:
+        frame = self.generated_frame_raw()
+        ret, buffer = cv2.imencode('.png', frame)
+        return buffer
+
 
     def stop_stream(self) -> bool:
         self.webcam.release()

@@ -40,17 +40,23 @@
         <div>
             <a id="start" class="btn" onclick="showHide('preview', 'video')">Start</a>
         </div>
+        <p><span id="saved-photos">0</span>/5 photos taken</p>
+        <div>
+            <a id="photo" class="btn" onclick="takePhoto()">Take photo</a>
+        </div>
         <div class="btns-group">
             <a href="#" class="btn2 btn-prev" onclick="buttonPrevios()">Previous</a>
-            <a href="#" class="btn2 btn-next" onclick="buttonNext()">Next</a>
+            <input type="submit" value="Submit" class="btn2"/>
+            <!--<a href="#" class="btn2 btn-next" onclick="buttonNext()">Next</a>-->
         </div>
     </div>
 
     <div class="form-step">
-        <h2>User was succesfully added!</h2>
+        <h2>User was successfully added!</h2>
         <div class="btns-group">
             <a href="#" class="btn2 btn-prev" onclick="buttonPrevios()">Previous</a>
-            <input type="submit" value="Submit" class="btn2"/>
+            <a class="btn2" onclick="submitForm()">Submit</a>
+            <!--<input type="submit" value="Submit" class="btn2"/>-->
         </div>
     </div>
 </form>

@@ -31,6 +31,7 @@ while True:
 
     ret, image = video.read()
 
+    print(type(image))
     locations = face_recognition.face_locations(image, model=MODEL)
     encodings = face_recognition.face_encodings(image, locations)
     print(encodings)

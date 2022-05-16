@@ -1,7 +1,7 @@
 import asyncio
 from typing import List
 from fastapi import APIRouter, WebSocket
-from fastapi.responses import PlainTextResponse
+from fastapi.responses import PlainTextResponse, HTMLResponse
 from starlette.websockets import WebSocketDisconnect
 
 from services.service_get_webcam_stream import WebcamStream
@@ -32,6 +32,7 @@ class ConnectionManager:
 manager = ConnectionManager()
 
 
+# WebSocket
 @router_webcam_stream.websocket("/ws_video")
 async def websocket_endpoint(websocket: WebSocket):
     await manager.connect(websocket)
@@ -57,3 +58,16 @@ def video_start():
 def video_stop():
     webcam_stream.stop_stream()
     return PlainTextResponse('You just turned off the camera')
+
+
+@router_webcam_stream.get('/take_photo', response_class=HTMLResponse)
+def parse_photo() -> str or bool:
+    photo = webcam_stream.generated_frame_raw()
+    print(photo.shape)
+    encodings = recognize_faces.recognize_faces(photo)
+
+    if len(encodings) != 1:
+        print('resource_webcam_stream.recognize_face(): Face not found or found more than 1 face!')
+        return False
+    else:
+        return str(list(encodings[0]))

@@ -1,36 +1,4 @@
-//function getPngDimensions(string) {
-//    console.log(string)
-//    var base64 = btoa(string)
-//    console.log(typeof base64)
-//    console.log(base64)
-//    let header = base64.slice(0, 50)
-//    let uint8 = Uint8Array.from(atob(header), c => c.charCodeAt(0))
-//    let dataView = new DataView(uint8.buffer, 0, 28)
-//    console.log(dataView)
-//    return {
-//    "width": dataView.getInt32(16),
-//    "height": dataView.getInt32(20)
-//    }
-//}
-
-//function openSocket() {
-//    let websocket = new WebSocket("ws://127.0.0.1:8000/ws_video");
-//    let msg = document.getElementById("video");
-//    var video_resolution = new Object();
-//    websocket.onmessage = (event) => {
-//
-//        if (Object.keys(video_resolution).length < 2){
-//            video_resolution = getPngDimensions(event.data);
-//            console.log(video_resolution);
-//        };
-//        let context = msg.getContext("2d");
-//        let image = new Image(video_resolution["width"], video_resolution["height"]);
-//        image.src = URL.createObjectURL(event.data);
-//        image.onload = (event) => {
-//            context.drawImage(image, 0, 0);
-//        };
-//    };
-//}
+////////////////////////////// WEBCAM WEBSOCKET //////////////////////////////
 
 function openSocket() {
     let websocket = new WebSocket("ws://127.0.0.1:8000/ws_video");
@@ -78,16 +46,7 @@ function showHide(id_1, id_2) {
     else alert("Элемент с id: " + element_id + " не найден!");
 }
 
-
-function parsePhoto() {
-    var xmlHttp = new XMLHttpRequest();
-    var user_id = getElementById('user_id');
-    var path = '/add_user_step_2/recognize_face/' + user_id;
-    xmlHttp.open( "GET", path, false ); // false for synchronous request
-    xmlHttp.send( null );
-}
-
-//////////////////////////////// Multi Form //////////////////////////////////
+////////////////////////////// MULTI FORM //////////////////////////////
 
 const prevBtns = document.querySelectorAll(".btn-prev");
 const nextBtns = document.querySelectorAll(".btn-next");
@@ -135,3 +94,57 @@ function buttonPrevios() {
     updateProgressbar();
 }
 
+//////////////////////////////  FACE RECOGNITION   //////////////////////////////
+
+let encodings = []
+let taken_photos_span = document.getElementById("saved-photos");
+
+function takePhoto() {
+    var xmlHttp = new XMLHttpRequest();
+    var path = '/take_photo';
+    xmlHttp.open( "GET", path, false ); // false for synchronous request
+    xmlHttp.send( null );
+    encodings.push(xmlHttp.responseText)
+    taken_photos_span.innerHTML = (parseInt(taken_photos_span.innerHTML) + 1).toString()
+    console.log(encodings)
+}
+
+//////////////////////////////  CUSTOM FORM MANAGER   //////////////////////////////
+
+const btn = document.querySelector('button');
+
+function sendData(data) {
+  const XHR = new XMLHttpRequest();
+
+  let urlEncodedData = "",
+      urlEncodedDataPairs = [],
+      name;1
+
+  // Turn the data object into an array of URL-encoded key/value pairs.
+  for ( name in data ) {
+    urlEncodedDataPairs.push( encodeURIComponent( name ) + '=' + encodeURIComponent( data[name] ) );
+  }
+
+  // Combine the pairs into a single string and replace all %-encoded spaces to
+  // the '+' character; matches the behaviour of browser form submissions.
+  urlEncodedData = urlEncodedDataPairs.join( '&' ).replace( /%20/g, '+' );
+
+  // Define what happens on successful data submission
+  XHR.addEventListener( 'load', function(event) {
+    alert( 'Yeah! Data sent and response loaded.' );
+  } );
+
+  // Define what happens in case of error
+  XHR.addEventListener( 'error', function(event) {
+    alert( 'Oops! Something went wrong.' );
+  } );
+
+  // Set up our request
+  XHR.open( 'POST', 'https://example.com/cors.php' );
+
+  // Add the required HTTP header for form data POST requests
+  XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
+
+  // Finally, send our data.
+  XHR.send( urlEncodedData );
+}
