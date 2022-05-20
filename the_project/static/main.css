@@ -69,14 +69,25 @@ p
   list-style-image: url(../images/Tick1.svg);
 }
 
+/********************************** WEBCAM **********************************/
 .rectangle {
-  position: relative;
+  /*position: relative;*/
   background: white;
-  width: 960px;
-  height:540px;
-  margin-left:auto;
-  margin-right:auto;
+  /*width: clamp(480px, 960px, 960px);*/
+  width: 100%;
+  height: auto;
+/*  margin-left:auto;
+  margin-right:auto;*/
+  margin: 0px 0px 50px 0px;
 }
+
+#preview, #video {
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+}
+
+/********************************************************************/
 
 .btn {
   background-color: white;/*mediumslateblue; !* Green */
@@ -227,11 +238,11 @@ tr:hover td {
   text-align:center;
 }
 
-.form {
+/*.form {
     text-align: center;
     margin: 20px auto;
     width: 40%;
-}
+}*/
 
 .button {
   font-size: 16px;
@@ -590,6 +601,7 @@ div.input-group label {
 }
 
 .btn2 {
+  font-family: 'Montserrat','Helvetica','Arial';
   padding: 0.75rem;
   display: block;
   text-decoration: none;
@@ -604,7 +616,19 @@ div.input-group label {
   box-shadow: 0 0 0 2px #fff, 0 0 0 3px var(--primary-color);
 }
 
-h1 {
+input[type="submit"] {
+  font-size: 16px;
+}
+
+div.form-step p {
+  color: #222222
+}
+
+#photo {
+  display: inline-block;
+}
+
+form h1 {
   width: 100%;
   height: 118px;
   left: 0px;

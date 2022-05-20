@@ -45,6 +45,7 @@ async def websocket_endpoint(websocket: WebSocket):
             else:
                 await manager.broadcast(frame)
     except WebSocketDisconnect:
+        print('raised WebSocketDisconnect')
         manager.disconnect(websocket)
 
 

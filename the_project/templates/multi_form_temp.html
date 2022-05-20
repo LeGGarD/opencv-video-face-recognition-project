@@ -33,17 +33,20 @@
 
     <div class="form-step">
         <h2>Face rec here</h2>
-        <div style="text-align: center" class="rectangle">
+<!--        <div style="text-align: center" class="rectangle">-->
+        <div class="rectangle">
             <img id="preview" src="../images/person.jpg"/>
             <canvas id="video" width="960" height="540" style="display: none; margin-left: auto; margin-right: auto;"/>
+<!--            <canvas id="video" style="display: none; margin-left: auto; margin-right: auto;"/>-->
         </div>
-        <div>
-            <a id="start" class="btn" onclick="showHide('preview', 'video')">Start</a>
+
+        <div class="btns-group">
+            <a id="start" class="btn2" onclick="showHide('preview', 'video')">Start</a>
+             <a id="photo" class="btn2" onclick="takePhoto()">Take photo</a>
         </div>
+
         <p><span id="saved-photos">0</span>/5 photos taken</p>
-        <div>
-            <a id="photo" class="btn" onclick="takePhoto()">Take photo</a>
-        </div>
+
         <div class="btns-group">
             <a href="#" class="btn2 btn-prev" onclick="buttonPrevios()">Previous</a>
             <input type="submit" value="Submit" class="btn2"/>

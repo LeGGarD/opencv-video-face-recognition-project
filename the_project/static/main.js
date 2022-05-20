@@ -1,22 +1,41 @@
 ////////////////////////////// WEBCAM WEBSOCKET //////////////////////////////
 
+
 function openSocket() {
-    let websocket = new WebSocket("ws://127.0.0.1:8000/ws_video");
-    let msg = document.getElementById("video");
+    var websocket = new WebSocket("ws://127.0.0.1:8000/ws_video");
+
+    var msg = document.getElementById("video");
+    var webcam_place = document.getElementById("webcam")
+
     websocket.onmessage = (event) => {
+//        var fileReader = new FileReader();
+//        var array;
+//
+//        fileReader.onload = function() {
+//            array = this.result;
+//            console.log("Array contains", array.byteLength, "bytes.");
+//        };
+//        fileReader.readAsArrayBuffer(event.data);
+
+//        var reader = new FileReader();
+//        var array;
+//        reader.readAsDataURL(event.data);
+//        reader.onloadend = function() {
+//            var array = reader.result;
+//        }
+
+//        webcam_place.src = URL.createObjectURL(event.data);
+//    }
         let context = msg.getContext("2d");
         let image = new Image(msg.width, msg.height);
         image.src = URL.createObjectURL(event.data);
-        image.style = "margin-left: auto; margin-right: auto;"
         image.onload = (event) => {
             context.drawImage(image, 0, 0);
         };
+        URL.revokeObjectURL(event.data);
     };
 }
 
-function closeSocket() {
-    websocket.close();
-}
 
 function showHide(id_1, id_2) {
     var xmlHttp = new XMLHttpRequest();

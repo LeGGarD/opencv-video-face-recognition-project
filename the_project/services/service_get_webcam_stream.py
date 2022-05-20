@@ -1,64 +1,27 @@
-import time
 import cv2
-from typing import Tuple
-import numpy
-import face_recognition
-import numpy as np
 
 
-class WebcamStream():
+class WebcamStream:
 
     def __init__(self):
         self.webcam = None
-
-    def resize_webcam_resolution(self, frame: numpy.ndarray, needed_height: int = 540) -> Tuple[int, int]:
-        resolution = frame.shape
-        coef = needed_height / resolution[0]
-        return int(resolution[1] * coef), int(resolution[0] * coef)
 
     def start_stream(self) -> bool:
         self.webcam = cv2.VideoCapture(0)
         self.webcam.set(cv2.CAP_PROP_FRAME_WIDTH, 960)
         self.webcam.set(cv2.CAP_PROP_FRAME_HEIGHT, 540)
         self.webcam.set(cv2.CAP_PROP_FPS, 30)
-        # _, frame = self.webcam.read()
         return True
 
-    async def generated_frame_bytes(self) -> bytes or bool:
-        while True:
-            buffer = self.generated_frame()
-            if buffer is not False:
-                if buffer is True:
-                    return None
-                    # break
-                frame = buffer.tobytes()
-                return frame
-
-    def generated_frame_raw(self) -> np.ndarray or bool:
+    async def generated_frame_bytes(self) -> bytes or None:
         try:
             success, frame = self.webcam.read()
-            if frame is not None:
-                # locations = face_recognition.face_locations(frame, model='small')
-                #
-                # for face_location in locations:
-                #     top_left = (face_location[3], face_location[0])
-                #     bottom_right = (face_location[1], face_location[2])
-                #     color = [0, 255, 0]
-                #     cv2.rectangle(frame, top_left, bottom_right, color, 3)
-                frame = cv2.flip(frame, 1)
-                return frame
-            else:
-                return True
-        except AttributeError as e:
-            print(e, '\n' + 'service_get_webcam_stream.generated_frame_bytes(): Waiting webcam to turn on...')
-            time.sleep(1.5)
-            return False
-
-    def generated_frame(self) -> np.ndarray:
-        frame = self.generated_frame_raw()
-        ret, buffer = cv2.imencode('.png', frame)
-        return buffer
-
+            frame = cv2.flip(frame, 1)
+            ret, png_frame = cv2.imencode('.png', frame)
+            bytes_frame = png_frame.tobytes()
+            return bytes_frame
+        except:
+            return None
 
     def stop_stream(self) -> bool:
         self.webcam.release()
