@@ -73,24 +73,25 @@ p
 .rectangle {
   /*position: relative;*/
   background: white;
-  /*width: clamp(480px, 960px, 960px);*/
-  width: 100%;
-  height: auto;
+  width: clamp(240px, 960px, 100%);
+  /*width: 100%;*/
+  /*height: auto;*/
 /*  margin-left:auto;
   margin-right:auto;*/
-  margin: 0px 0px 50px 0px;
+  margin: 0 auto;
 }
 
 #preview, #video {
   width: 100%;
   display: block;
   box-sizing: border-box;
+  position: relative;
 }
 
 /********************************************************************/
 
-.btn {
-  background-color: white;/*mediumslateblue; !* Green */
+/*.btn {
+  background-color: white;*//*mediumslateblue; !* Green *//*
   border: none;
   color: black;
   padding: 18px 100px;
@@ -104,7 +105,7 @@ p
   transform: translate(-50%, 0);
   margin-top: 20px;
   margin-bottom:60px;
-}
+}*/
 
 
 /*.btn:hover {*/
@@ -112,11 +113,11 @@ p
 /*  color:white;*/
 /*}*/
 
-.btn:hover{
+/*.btn:hover{
   background: radial-gradient(circle,  #0ff 0%, #e0e5ec 120%);
   color: mediumslateblue;
   animation: colorchange 3s linear infinite;
-}
+}*/
 
 
 
@@ -554,7 +555,7 @@ input {
 /* Form */
 
 .form {
-  width: clamp(350px, 60%, 1280px);
+  width: clamp(450px, 60%, 1280px);
   margin: 0 auto;
   border: 1px solid #ccc;
   border-radius: 0.35rem;
@@ -600,7 +601,7 @@ div.input-group label {
   gap: 1.5rem;
 }
 
-.btn2 {
+.btn {
   font-family: 'Montserrat','Helvetica','Arial';
   padding: 0.75rem;
   display: block;
@@ -611,9 +612,40 @@ div.input-group label {
   border-radius: 0.25rem;
   cursor: pointer;
   transition: 0.3s;
+  position: relative;
+  margin-top: 50px;
 }
 .btn:hover {
   box-shadow: 0 0 0 2px #fff, 0 0 0 3px var(--primary-color);
+}
+
+.btn-center {
+    width: 25%;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+.btn-main {
+    padding: 1rem 1.5rem;
+    font-size: 20px;
+}
+
+.btn-disabled {
+    font-family: 'Montserrat','Helvetica','Arial';
+    padding: 0.75rem;
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 0.25rem;
+    transition: 0.3s;
+    position: relative;
+    color: #6c6c6c;
+    background-color: #f5f5f7;
+}
+
+.btn-next {
+  margin-left: auto;
+  width:50%;
 }
 
 input[type="submit"] {

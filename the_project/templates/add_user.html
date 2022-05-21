@@ -20,14 +20,14 @@
     <div class="form-step form-step-active">
         <div class="input-group">
             <label for="username" >Name</label>
-            <input type="text" name="name" id="username"/>
+            <input type="text" name="name" id="name"/>
         </div>
         <div class="input-group">
             <label for="position" >Address</label>
-            <input type="text" name="address" id="position"/>
+            <input type="text" name="address" id="address"/>
         </div>
         <div class="">
-            <a href="#" class="btn2 btn-next width-50 ml-auto" onclick="buttonNext()">Next</a>
+            <a class="btn btn-next width-50 ml-auto" onclick="buttonNext()">Next</a>
         </div>
     </div>
 
@@ -41,25 +41,25 @@
         </div>
 
         <div class="btns-group">
-            <a id="start" class="btn2" onclick="showHide('preview', 'video')">Start</a>
-             <a id="photo" class="btn2" onclick="takePhoto()">Take photo</a>
+            <a id="start" class="btn" onclick="showHide('preview', 'video')">Start</a>
+            <a id="photo" class="btn" onclick="takePhoto()" style="display: none;">Take photo</a>
         </div>
 
-        <p><span id="saved-photos">0</span>/5 photos taken</p>
+        <p id="photo-text" style="display: none;"><span id="saved-photos">0</span>/5 photos taken</p>
 
         <div class="btns-group">
-            <a href="#" class="btn2 btn-prev" onclick="buttonPrevios()">Previous</a>
-            <input type="submit" value="Submit" class="btn2"/>
-            <!--<a href="#" class="btn2 btn-next" onclick="buttonNext()">Next</a>-->
+            <a class="btn btn-prev" onclick="buttonPrevios()">Previous</a>
+<!--            <input type="submit" value="Submit" class="btn"/>-->
+            <a class="btn" onclick="submitForm()">Submit</a>
         </div>
     </div>
 
     <div class="form-step">
         <h2>User was successfully added!</h2>
         <div class="btns-group">
-            <a href="#" class="btn2 btn-prev" onclick="buttonPrevios()">Previous</a>
-            <a class="btn2" onclick="submitForm()">Submit</a>
-            <!--<input type="submit" value="Submit" class="btn2"/>-->
+            <a class="btn btn-prev" onclick="buttonPrevios()">Previous</a>
+            <a class="btn" onclick="submitForm()">Submit</a>
+            <!--<input type="submit" value="Submit" class="btn"/>-->
         </div>
     </div>
 </form>

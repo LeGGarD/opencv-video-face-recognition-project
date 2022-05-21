@@ -56,12 +56,12 @@ def get_add_user_page(request: Request, user_id: int):
 
 
 ##################################################################################
-@router_add_user.get('/multi_form_test/', response_class=HTMLResponse)
+@router_add_user.get('/add_user/', response_class=HTMLResponse)
 def get_add_user_page(request: Request):
-    return templates.TemplateResponse('multi_form_temp.html', {'request': request})
+    return templates.TemplateResponse('add_user.html', {'request': request})
 
-@router_add_user.post('/multi_form_test/')
-def submit_form(name: str = Form(...), address: str = Form(...), db: Session = Depends(crud.get_db)):
-    pass
-
+@router_add_user.post('/add_user/')
+def submit_form(name: str = Form(...), address: str = Form(...), encodings: str = Form(...),
+                db: Session = Depends(crud.get_db)):
+    print(name, address, encodings)
 

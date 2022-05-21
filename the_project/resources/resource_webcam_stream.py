@@ -45,7 +45,7 @@ async def websocket_endpoint(websocket: WebSocket):
             else:
                 await manager.broadcast(frame)
     except WebSocketDisconnect:
-        print('raised WebSocketDisconnect')
+        print('resource_webcam_stream.websocket_endpoint(): Raised WebSocketDisconnect')
         manager.disconnect(websocket)
 
 
@@ -62,13 +62,16 @@ def video_stop():
 
 
 @router_webcam_stream.get('/take_photo', response_class=HTMLResponse)
-def parse_photo() -> str or bool:
-    photo = webcam_stream.generated_frame_raw()
-    print(photo.shape)
+def take_photo() -> str or bool:
+    photo = webcam_stream.generated_frame()
+    if photo is None:
+        print('resource_webcam_stream.recognize_face(): Couldn\'t take a photo, maybe webcam is turned off')
+        return PlainTextResponse('')
+
     encodings = recognize_faces.recognize_faces(photo)
 
     if len(encodings) != 1:
         print('resource_webcam_stream.recognize_face(): Face not found or found more than 1 face!')
-        return False
+        return PlainTextResponse('')
     else:
         return str(list(encodings[0]))

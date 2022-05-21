@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 
 
 class WebcamStream:
@@ -20,6 +21,14 @@ class WebcamStream:
             ret, png_frame = cv2.imencode('.png', frame)
             bytes_frame = png_frame.tobytes()
             return bytes_frame
+        except:
+            return None
+
+    def generated_frame(self) -> np.ndarray or None:
+        try:
+            success, frame = self.webcam.read()
+            frame = cv2.flip(frame, 1)
+            return frame
         except:
             return None
 

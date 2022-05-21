@@ -8,24 +8,6 @@ function openSocket() {
     var webcam_place = document.getElementById("webcam")
 
     websocket.onmessage = (event) => {
-//        var fileReader = new FileReader();
-//        var array;
-//
-//        fileReader.onload = function() {
-//            array = this.result;
-//            console.log("Array contains", array.byteLength, "bytes.");
-//        };
-//        fileReader.readAsArrayBuffer(event.data);
-
-//        var reader = new FileReader();
-//        var array;
-//        reader.readAsDataURL(event.data);
-//        reader.onloadend = function() {
-//            var array = reader.result;
-//        }
-
-//        webcam_place.src = URL.createObjectURL(event.data);
-//    }
         let context = msg.getContext("2d");
         let image = new Image(msg.width, msg.height);
         image.src = URL.createObjectURL(event.data);
@@ -52,6 +34,8 @@ function showHide(id_1, id_2) {
             obj2.style.display = "inline-block"; // show video
             button.innerText = 'Stop';
             button.dataset.trigger = false;
+            btn_photo.style.display = "inline-block";
+            photo_text.style.display = "inline-block";
         }
         else {
             xmlHttp.open( "GET", "/video_stop", false ); // false for synchronous request
@@ -60,6 +44,8 @@ function showHide(id_1, id_2) {
             obj2.style.display = 'none'; // hide video
             button.innerText = 'Start';
             button.dataset.trigger = true;
+            btn_photo.style.display = "none"
+            photo_text.style.display = "none";
         }
     }
     else alert("Элемент с id: " + element_id + " не найден!");
@@ -118,31 +104,66 @@ function buttonPrevios() {
 let encodings = []
 let taken_photos_span = document.getElementById("saved-photos");
 
+let btn_photo = document.getElementById('photo')
+let photo_text = document.getElementById('photo-text')
+
 function takePhoto() {
-    var xmlHttp = new XMLHttpRequest();
-    var path = '/take_photo';
-    xmlHttp.open( "GET", path, false ); // false for synchronous request
-    xmlHttp.send( null );
-    encodings.push(xmlHttp.responseText)
-    taken_photos_span.innerHTML = (parseInt(taken_photos_span.innerHTML) + 1).toString()
-    console.log(encodings)
+    if (encodings.length < 5) {
+        var xmlHttp = new XMLHttpRequest();
+        var path = '/take_photo';
+        xmlHttp.open( "GET", path, false ); // false for synchronous request
+        xmlHttp.send( null );
+        if (xmlHttp.responseText == '') {
+            console.log('Webcam is turned off or face isn\'t found!')
+        }
+        else {
+            encodings.push(xmlHttp.responseText)
+            taken_photos_span.innerHTML = (parseInt(taken_photos_span.innerHTML) + 1).toString()
+            console.log(encodings)
+        }
+        if (encodings.length == 5) {
+            btn_photo.classList.remove('btn');
+            btn_photo.classList.add('btn-disabled');
+        }
+    }
+    else {
+        console.log
+    }
 }
+////////////////////////////////////////////////////////////////////////////////////
+
+function submitForm(data) {
+    if (encodings.length == 5) {
+
+        XHR.open( "POST", "/video_start", false );
+    }
+
+}
+
+
 
 //////////////////////////////  CUSTOM FORM MANAGER   //////////////////////////////
 
 const btn = document.querySelector('button');
 
-function sendData(data) {
+function submitForm() {
   const XHR = new XMLHttpRequest();
 
   let urlEncodedData = "",
       urlEncodedDataPairs = [],
-      name;1
+      name;
+
+  var data = {'name': document.getElementById("name").value,
+              'address': document.getElementById("address").value,
+              'encodings': encodings}
+  console.log(data)
 
   // Turn the data object into an array of URL-encoded key/value pairs.
   for ( name in data ) {
     urlEncodedDataPairs.push( encodeURIComponent( name ) + '=' + encodeURIComponent( data[name] ) );
   }
+
+  console.log(urlEncodedDataPairs)
 
   // Combine the pairs into a single string and replace all %-encoded spaces to
   // the '+' character; matches the behaviour of browser form submissions.
@@ -159,7 +180,7 @@ function sendData(data) {
   } );
 
   // Set up our request
-  XHR.open( 'POST', 'https://example.com/cors.php' );
+  XHR.open( 'POST', '/add_user/', false );
 
   // Add the required HTTP header for form data POST requests
   XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
