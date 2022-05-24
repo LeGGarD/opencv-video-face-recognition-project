@@ -38,9 +38,13 @@ def delete_user(db: Session, user_id: int):
     db.commit()
     return True
 
-# def create_face_encoding(db: Session, face_encoding: schemas.FaceEncodingCreate, user_id: int):
-#     db_face_encoding = models.FaceEncoding(**face_encoding.dict(), user_id=user_id)
-#     db.add(db_face_encoding)
-#     db.commit()
-#     db.refresh(db_face_encoding)
-#     return db_face_encoding
+def create_user_face_encoding(db: Session, face_encoding: schemas.FaceEncodingCreate, user_id: int):
+    db_face_encoding = models.FaceEncoding(**face_encoding.dict(), user_id=user_id)
+    db.add(db_face_encoding)
+    db.commit()
+    db.refresh(db_face_encoding)
+    return db_face_encoding
+
+def get_face_encodings_by_user_id(db: Session, user_id: int):
+    face_encodings = db.query(models.FaceEncoding).filter(models.FaceEncoding.user_id == user_id).all()
+    return len(face_encodings)

@@ -35,7 +35,6 @@ function showHide(id_1, id_2) {
             button.innerText = 'Stop';
             button.dataset.trigger = false;
             btn_photo.style.display = "inline-block";
-            photo_text.style.display = "inline-block";
         }
         else {
             xmlHttp.open( "GET", "/video_stop", false ); // false for synchronous request
@@ -44,8 +43,7 @@ function showHide(id_1, id_2) {
             obj2.style.display = 'none'; // hide video
             button.innerText = 'Start';
             button.dataset.trigger = true;
-            btn_photo.style.display = "none"
-            photo_text.style.display = "none";
+            btn_photo.style.display = "none";
         }
     }
     else alert("Элемент с id: " + element_id + " не найден!");
@@ -76,7 +74,8 @@ function updateProgressbar() {
   progressSteps.forEach((progressStep, idx) => {
     if (idx < formStepsNum + 1) {
       progressStep.classList.add("progress-step-active");
-    } else {
+    }
+    else {
       progressStep.classList.remove("progress-step-active");
     }
   });
@@ -88,15 +87,32 @@ function updateProgressbar() {
 }
 
 function buttonNext() {
-    formStepsNum++;
-    updateFormSteps();
-    updateProgressbar();
+    var name = document.getElementById("name").value;
+    var address = document.getElementById("address").value;
+
+    if (name != '' && address != '') {
+        formStepsNum++;
+        updateFormSteps();
+        updateProgressbar();
+        const labels = document.querySelectorAll('label');
+        for (const label of labels) {
+            label.classList.remove('red-text');
+        }
+    }
+    else {
+        document.getElementById('next-alert').style.display = 'inline-block'
+        const labels = document.querySelectorAll('label');
+        for (const label of labels) {
+            label.classList.add('red-text');
+        }
+    }
 }
 
 function buttonPrevios() {
     formStepsNum--;
     updateFormSteps();
     updateProgressbar();
+
 }
 
 //////////////////////////////  FACE RECOGNITION   //////////////////////////////
@@ -130,61 +146,59 @@ function takePhoto() {
         console.log
     }
 }
-////////////////////////////////////////////////////////////////////////////////////
-
-function submitForm(data) {
-    if (encodings.length == 5) {
-
-        XHR.open( "POST", "/video_start", false );
-    }
-
-}
-
-
 
 //////////////////////////////  CUSTOM FORM MANAGER   //////////////////////////////
 
 const btn = document.querySelector('button');
 
 function submitForm() {
-  const XHR = new XMLHttpRequest();
+    const XHR = new XMLHttpRequest();
 
-  let urlEncodedData = "",
-      urlEncodedDataPairs = [],
-      name;
+    let urlEncodedData = "",
+    urlEncodedDataPairs = [],
+    name;
 
-  var data = {'name': document.getElementById("name").value,
-              'address': document.getElementById("address").value,
-              'encodings': encodings}
-  console.log(data)
+    if (encodings.length == 5 && name != '' && address != '') {
+        var data = {'name': document.getElementById("name").value,
+                  'address': document.getElementById("address").value,
+                  'encodings': encodings}
+        console.log(data)
 
-  // Turn the data object into an array of URL-encoded key/value pairs.
-  for ( name in data ) {
-    urlEncodedDataPairs.push( encodeURIComponent( name ) + '=' + encodeURIComponent( data[name] ) );
-  }
 
-  console.log(urlEncodedDataPairs)
+        // Turn the data object into an array of URL-encoded key/value pairs.
+        for ( name in data ) {
+        urlEncodedDataPairs.push( encodeURIComponent( name ) + '=' + encodeURIComponent( data[name] ) );
+        }
 
-  // Combine the pairs into a single string and replace all %-encoded spaces to
-  // the '+' character; matches the behaviour of browser form submissions.
-  urlEncodedData = urlEncodedDataPairs.join( '&' ).replace( /%20/g, '+' );
+        console.log(urlEncodedDataPairs)
 
-  // Define what happens on successful data submission
-  XHR.addEventListener( 'load', function(event) {
-    alert( 'Yeah! Data sent and response loaded.' );
-  } );
+        // Combine the pairs into a single string and replace all %-encoded spaces to
+        // the '+' character; matches the behaviour of browser form submissions.
+        urlEncodedData = urlEncodedDataPairs.join( '&' ).replace( /%20/g, '+' );
 
-  // Define what happens in case of error
-  XHR.addEventListener( 'error', function(event) {
-    alert( 'Oops! Something went wrong.' );
-  } );
+        // Define what happens on successful data submission
+//        XHR.addEventListener( 'load', function(event) {
+//        alert( 'Yeah! Data sent and response loaded.' );
+//        } );
 
-  // Set up our request
-  XHR.open( 'POST', '/add_user/', false );
+        // Define what happens in case of error
+        XHR.addEventListener( 'error', function(event) {
+        alert( 'Oops! Something went wrong.' );
+        } );
 
-  // Add the required HTTP header for form data POST requests
-  XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
+        // Set up our request
+        XHR.open( 'POST', '/add_user/', false );
 
-  // Finally, send our data.
-  XHR.send( urlEncodedData );
+        // Add the required HTTP header for form data POST requests
+        XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
+
+        // Finally, send our data.
+        XHR.send( urlEncodedData );
+
+        buttonNext();
+    }
+    else {
+        console.log('Some inputs aren\'t filled or photos aren\'t taken')
+        document.getElementById('submit-alert').style.display = 'inline-block'
+    }
 }

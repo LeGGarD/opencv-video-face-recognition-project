@@ -5,7 +5,6 @@ from typing import List, Optional
 
 class FaceEncodingBase(BaseModel):
     face_encoding: str
-    created_at: Optional[datetime]
 
 
 class FaceEncodingCreate(FaceEncodingBase):
@@ -15,6 +14,7 @@ class FaceEncodingCreate(FaceEncodingBase):
 class FaceEncoding(FaceEncodingBase):
     id: int
     user_id: int
+    created_at: Optional[datetime]
 
     class Config:
         orm_mode = True
@@ -23,7 +23,6 @@ class FaceEncoding(FaceEncodingBase):
 class UserBase(BaseModel):
     name: str
     address: str
-    created_at: Optional[datetime]
 
 
 class UserCreate(UserBase):
@@ -33,6 +32,7 @@ class UserCreate(UserBase):
 class User(UserBase):
     id: int
     face_encodings: List[FaceEncoding] = []
+    created_at: Optional[datetime]
 
     class Config:
         orm_mode = True

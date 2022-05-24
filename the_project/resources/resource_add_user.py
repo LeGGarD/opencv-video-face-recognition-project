@@ -1,6 +1,6 @@
 import time
 from fastapi import APIRouter, Form, Depends, HTTPException
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, RedirectResponse, PlainTextResponse
 from fastapi.requests import Request
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
@@ -63,5 +63,21 @@ def get_add_user_page(request: Request):
 @router_add_user.post('/add_user/')
 def submit_form(name: str = Form(...), address: str = Form(...), encodings: str = Form(...),
                 db: Session = Depends(crud.get_db)):
-    print(name, address, encodings)
+    # Adding new User
+    user = schemas.UserCreate(name=name, address=address)
+    db_user_name = crud.get_user_by_name(db=db, name=user.name)
+    db_user_address = crud.get_user_by_address(db=db, address=user.address)
+    if db_user_address and db_user_name:
+        raise HTTPException(status_code=400, detail='Name and address is already registered')
+    crud.create_user(db=db, user=user)
+    # Adding Face Encodings
+    user_id = crud.get_user_by_name_and_address(db=db, name=db_user_name, address=db_user_address)
+    for encoding in encodings.split('],['):
+        encoding.replace('[', '')
+        encoding.replace(']', '')
+        face_encoding = schemas.FaceEncodingCreate(face_encoding=encoding)
+        crud.create_user_face_encoding(db=db, face_encoding=face_encoding, user_id=user_id)
+    print(crud.get_face_encodings_by_user_id(db=db, user_id=user_id))
+    return PlainTextResponse('User and encodings were succesfully added!')
+
 
