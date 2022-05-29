@@ -42,6 +42,15 @@ h3 {
   color: white;
 }
 
+h4 {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 44px;
+  text-align: center;
+  color: white;
+}
+
 ul li {
   height: 29px;
   left: 115px;
@@ -68,8 +77,14 @@ p a:link {
 }
 
 p a:visited {
-  color: #ebadd6;
+  color: #B685D3;
 }
+
+
+p a:hover {
+  color: #536DFE;
+}
+
 
 
 .arrows {
@@ -122,10 +137,10 @@ p a:visited {
 }*/
 
 
-/*.btn:hover {*/
-/*  background-color: royalblue;*/
-/*  color:white;*/
-/*}*/
+.btn:hover {
+ background-color: #536DFE;
+  color:white;
+}
 
 /*.btn:hover{
   background: radial-gradient(circle,  #0ff 0%, #e0e5ec 120%);
@@ -157,8 +172,7 @@ p a:visited {
 
 /* Style the logo link (notice that we set the same value of line-height and font-size to prevent the header to increase when the font gets bigger */
 .header a.logo {
-  font-size: 22px;
-  font-weight: bold;
+  font-size: 20px;
 }
 
 /* Change the background color on mouse-over */
@@ -196,7 +210,7 @@ p a:visited {
 /******************************** ADMIN PAGE *************************************/
 .add_btn
 {
-  background-color: #4CA772; /* Green */
+  background-color: #149E8B; /* Green */
   border: none;
   color: white;
   padding: 15px 32px;
@@ -208,6 +222,11 @@ p a:visited {
   margin-bottom: 32px;
   margin-right: 32px;
   position: relative;
+}
+
+.add_btn:hover
+{
+ background-color: #43B1A2;
 }
 
 table, td, th {
@@ -245,7 +264,7 @@ tr:hover td {
 }
 
 .name_address{
-  width:38.8%;
+  width:35%;
 }
 
 .action_date
@@ -470,7 +489,7 @@ html {
 /* ************************************ MULTI FORM ************************************ */
 
 :root {
-  --primary-color: rgb(11, 78, 179);
+  --primary-color: royalblue;
 }
 
 *,
@@ -627,9 +646,6 @@ div.input-group label {
   cursor: pointer;
   transition: 0.3s;
   position: relative;
-}
-.btn:hover {
-  box-shadow: 0 0 0 2px #fff, 0 0 0 3px var(--primary-color);
 }
 
 .btn-center {
