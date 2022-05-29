@@ -40,7 +40,7 @@ function openSocketFaceRecognition() {
 }
 
 
-function showHide(id_1, id_2) {
+function showHide(id_1, id_2, flag) {
     var xmlHttp = new XMLHttpRequest();
     var button = document.getElementById('start');
     if (document.getElementById(id_1, id_2)){
@@ -50,7 +50,12 @@ function showHide(id_1, id_2) {
         if (obj2.style.display == "none") {
             xmlHttp.open( "GET", "/video_start", false ); // false for synchronous request
             xmlHttp.send( null );
-            openSocket();
+            if (flag === 1) {
+                openSocket();
+            }
+            if (flag === 2) {
+                openSocketFaceRecognition();
+            }
             obj.style.display = "none"; // hide preview
             obj2.style.display = "inline-block"; // show video
             button.innerText = 'Stop';
