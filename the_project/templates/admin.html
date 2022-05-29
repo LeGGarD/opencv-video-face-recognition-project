@@ -12,7 +12,8 @@
 <!--    <a href="/multi_form_test/" class="btn">Multi Form Test</a>-->
     <a href="/add_user/" class="add_btn">Додати користувача</a>
     {% if users|length < 1 %}
-    <h4 style="text-align: center">There is no users yet.</h4>
+    <h4 style="text-align: center">There are no users yet</h4>
+    <img id="preview" src="../images/void.png" style="width:40%; margin:0 auto;"/>
     {% else %}
     <table>
         <tr>
