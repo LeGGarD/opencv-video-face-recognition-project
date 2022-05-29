@@ -63,17 +63,14 @@ p {
   color: white;
 }
 
-a:link {
+p a:link {
   color: rgb(11, 78, 179);
 }
 
-a:visited {
+p a:visited {
   color: #ebadd6;
 }
 
-a:hover {
-
-}
 
 .arrows {
   list-style-image: url(../images/Tick1.svg);
