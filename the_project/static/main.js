@@ -1,20 +1,41 @@
 ////////////////////////////// WEBCAM WEBSOCKET //////////////////////////////
 
 
+let webcam_place = document.getElementById("webcam");
+let msg = document.getElementById("video");
+let context = msg.getContext("2d");
+
 function openSocket() {
-    var websocket = new WebSocket("ws://127.0.0.1:8000/ws_video");
-
-    var msg = document.getElementById("video");
-    var webcam_place = document.getElementById("webcam")
-
+    var websocket = new WebSocket("ws://127.0.0.1:8000/ws_video/1");
     websocket.onmessage = (event) => {
-        let context = msg.getContext("2d");
         let image = new Image(msg.width, msg.height);
-        image.src = URL.createObjectURL(event.data);
+        const urlObject = URL.createObjectURL(event.data);
+        image.src = urlObject;
         image.onload = (event) => {
             context.drawImage(image, 0, 0);
+            URL.revokeObjectURL(urlObject);
+            delete event
         };
-        URL.revokeObjectURL(event.data);
+        delete image
+        delete event
+    }
+}
+
+
+
+function openSocketFaceRecognition() {
+    var websocket = new WebSocket("ws://127.0.0.1:8000/ws_video/2");
+    websocket.onmessage = (event) => {
+        let image = new Image(msg.width, msg.height);
+        const urlObject = URL.createObjectURL(event.data);
+        image.src = urlObject;
+        image.onload = (event) => {
+            context.drawImage(image, 0, 0);
+            URL.revokeObjectURL(urlObject);
+            delete event
+        };
+        delete image
+        delete event
     };
 }
 

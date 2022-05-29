@@ -73,8 +73,12 @@ def submit_form(name: str = Form(...), address: str = Form(...), encodings: str 
     # Adding Face Encodings
     user_id = crud.get_user_by_name_and_address(db=db, name=db_user_name, address=db_user_address)
     for encoding in encodings.split('],['):
-        encoding.replace('[', '')
-        encoding.replace(']', '')
+        if encoding[0] != '[':
+            encoding = '[' + encoding
+        elif encoding[-1] != ']':
+            encoding = encoding + ']'
+        # encoding.replace('[', '')
+        # encoding.replace(']', '')
         face_encoding = schemas.FaceEncodingCreate(face_encoding=encoding)
         crud.create_user_face_encoding(db=db, face_encoding=face_encoding, user_id=user_id)
     print(crud.get_face_encodings_by_user_id(db=db, user_id=user_id))

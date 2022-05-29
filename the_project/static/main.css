@@ -1,11 +1,11 @@
-body{
+body {
   font-family: 'Montserrat','Helvetica','Arial';
   margin-left:80px;
   margin-right:80px;
   margin-bottom:100px;
 }
 
-h1{
+h1 {
   width: 805px;
   height: 118px;
   left: 237px;
@@ -20,7 +20,7 @@ h1{
   margin-right:auto;
 }
 
-h2{
+h2 {
   top: 50px;
   font-style: normal;
   font-weight: 500;
@@ -30,7 +30,7 @@ h2{
   text-align:center;
 }
 
-h3{
+h3 {
   width:230px;
   height: 44px;
   left: 80px;
@@ -42,8 +42,7 @@ h3{
   color: white;
 }
 
-ul li
-{
+ul li {
   height: 29px;
   left: 115px;
   font-style: normal;
@@ -53,8 +52,7 @@ ul li
   color: white;
 }
 
-p
-{
+p {
   height: 29px;
   left: 115px;
   top: 316px;
@@ -65,15 +63,33 @@ p
   color: white;
 }
 
+a:link {
+  color: rgb(11, 78, 179);
+}
+
+a:visited {
+  color: #ebadd6;
+}
+
+a:hover {
+
+}
+
 .arrows {
   list-style-image: url(../images/Tick1.svg);
+}
+
+.small-description {
+    font-size: 16px;
+    text-align: center;
 }
 
 /********************************** WEBCAM **********************************/
 .rectangle {
   /*position: relative;*/
   background: white;
-  width: clamp(240px, 960px, 100%);
+  width: clamp(240px, 960px, 960px);
+  height: clamp(135px, 540px, 540px);
   /*width: 100%;*/
   /*height: auto;*/
 /*  margin-left:auto;

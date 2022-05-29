@@ -33,13 +33,21 @@ manager = ConnectionManager()
 
 
 # WebSocket
-@router_webcam_stream.websocket("/ws_video")
-async def websocket_endpoint(websocket: WebSocket):
+@router_webcam_stream.websocket("/ws_video/{stream_type}")
+async def websocket_endpoint(websocket: WebSocket, stream_type: int):
     await manager.connect(websocket)
     try:
         while True:
-            await asyncio.sleep(0.04)
-            frame = await webcam_stream.generated_frame_bytes()
+            # Set displaying FPS here as: 1 / FPS
+            await asyncio.sleep(0.06)
+
+            if stream_type == 1:
+                frame = await webcam_stream.generate_frame_bytes()
+            elif stream_type == 2:
+                frame = await webcam_stream.generate_frame_face_rec()
+            else:
+                frame = None
+
             if frame is None:
                 raise WebSocketDisconnect
             else:
@@ -47,6 +55,7 @@ async def websocket_endpoint(websocket: WebSocket):
     except WebSocketDisconnect:
         print('resource_webcam_stream.websocket_endpoint(): Raised WebSocketDisconnect')
         manager.disconnect(websocket)
+        webcam_stream.stop_stream()
 
 
 @router_webcam_stream.get('/video_start')
