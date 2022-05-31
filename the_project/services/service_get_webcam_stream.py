@@ -98,6 +98,11 @@ class WebcamStream:
         - frame with localed face in it takes ~0.43 sec
         - frame with located and recognized from DB face takes ~0.6 sec
 
+        Performance measurements on M1:
+        - raw frame generation takes ~0.07 sec
+        - frame with localed face in it takes ~0.32 sec
+        - frame with located and recognized from DB face takes ~0.33 sec
+
         Is used in resource_webcam_stream.websocket_endpoint() if stream_type == 2
         '''
         try:
