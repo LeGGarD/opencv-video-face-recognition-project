@@ -31,15 +31,29 @@ coming soon...
 * (✓) More dances with start/stop button (now it actually uses your webcam only after pushing the button and actually stops using it, after pushing the stop. Before this, your webcam was used all the time after the server start);
 * (✓) Templating HTML pages using Jinja2 syntax;
 ### In progress:
-* (...) _Creation of editor/adding user page;_ 
+* (...) _Creation of the 'Add user' page;_ 
   * (✓) _Finding out how to pass form data to endpoint;_ 
   * (✓) _How to handle freaking redirect after form proceeds post request;_ 
   * (✓) _Coding the second step of adding user (face recognition and putting face encoding in DB);_ 
-  * (...) _Prettifying these two pages;_ 
+  * (✕) _Prettifying these two pages;_ 
+  * **(✓) _Deciding to go the completely different way_**
+  * (✓) _Creation of 1 page with proper form, consisted of a few steps_
+  * (✓) _Programming client and backend sides to take photos right inside the form_
+  * (✓) _Parsing the taken photos into face encodings_
+  * (✓) _Programming a custom form submission with parsed face encodings_
+  * (✓) _Adjusting the DB_
+  * (✓) _Making some exceptions and restrictions related to the form (like leaving empty fields)_
+  * (...) _Prettifying the visual part of the form_
 * (...) _Editing main page to be able to recognize faces based on the data stored in DB and show face recognition results in realtime;_ 
+  * (✓) _Separating JS functions for raw webcam stream and the stream with face recognition_
+  * (✓) _Doing some performance experiments with webcam stream and face recognition_
+  * (✓) _Programming data extraction from the DB_
+  * (✓) _Implementing the face recognition service based on the retrieved data_
+  * (...) _Creation of 'Reload DB data' button_
+  * (...) _Prettifying the final result_
   
 ## Used things:  
-Python, OpenCV,  
+Python, OpenCV (cv2), face_recognition, sqlalchemy 
 Uvicorn + FastAPI (instead of Flask),  
 SQLite, SQLAlchemy  
 HTML, CSS, JS, Jinja2
