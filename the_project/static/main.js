@@ -6,6 +6,7 @@ let msg = document.getElementById("video");
 let context = msg.getContext("2d");
 
 function openSocket() {
+    // number 1 in the end of the link below means that the websocket will be returning pure webcam stream
     var websocket = new WebSocket("ws://127.0.0.1:8000/ws_video/1");
     websocket.onmessage = (event) => {
         let image = new Image(msg.width, msg.height);
@@ -24,6 +25,7 @@ function openSocket() {
 
 
 function openSocketFaceRecognition() {
+    // number 2 in the end of the link below means that the websocket will be returning webcam stream with face recoognition
     var websocket = new WebSocket("ws://127.0.0.1:8000/ws_video/2");
     websocket.onmessage = (event) => {
         let image = new Image(msg.width, msg.height);

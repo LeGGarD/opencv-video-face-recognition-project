@@ -47,4 +47,4 @@ def create_user_face_encoding(db: Session, face_encoding: schemas.FaceEncodingCr
 
 def get_face_encodings_by_user_id(db: Session, user_id: int):
     face_encodings = db.query(models.FaceEncoding).filter(models.FaceEncoding.user_id == user_id).all()
-    return len(face_encodings)
+    return face_encodings

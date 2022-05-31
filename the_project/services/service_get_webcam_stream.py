@@ -1,3 +1,4 @@
+import time
 import cv2
 import numpy as np
 import face_recognition
@@ -8,6 +9,7 @@ from sql import models
 from sql.database import SessionLocal
 from sqlalchemy.orm import Session
 
+
 # Dependency
 def get_db():
     db_ = SessionLocal()
@@ -15,6 +17,7 @@ def get_db():
         yield db_
     finally:
         db_.close()
+
 
 class WebcamStream:
 
@@ -24,8 +27,10 @@ class WebcamStream:
         self.FRAME_THIKNESS = 3
         self.FONT_THIKNESS = 2
         self.MODEL = 'hog'
-        self.DB_DATA = self.reload_database()
-
+        self.COLOR = [0, 255, 0]
+        self.db_data = self.reload_database()
+        self.time_from_last_face_rec_update = time.time()
+        self.last_face_rec_results = None
 
     def start_stream(self) -> bool:
         '''
@@ -65,7 +70,6 @@ class WebcamStream:
             for i in range(5):
                 fin_addresses.append(address[0])
         db.close()
-        # print(fin_encodings, fin_names, fin_addresses)
         print('service_get_webcam_stream.reload_database(): The data from the DB was updated!')
         return {'encodings': fin_encodings, 'names': fin_names, 'addresses': fin_addresses}
 
@@ -89,36 +93,54 @@ class WebcamStream:
         Returns the actual webcam frame encoded as png and then as bytes
         It also has the rectangles around recognized faces, names and adresses of recognized captured people
 
+        Performance measurements on i5-8300H:
+        - raw frame generation takes ~0.035 sec
+        - frame with localed face in it takes ~0.43 sec
+        - frame with located and recognized from DB face takes ~0.6 sec
+
         Is used in resource_webcam_stream.websocket_endpoint() if stream_type == 2
         '''
         try:
+            t1 = time.time()
+            # trying to retrieve a frame from the webcam
             success, frame = self.webcam.read()
             frame = cv2.flip(frame, 1)
 
-            locations = face_recognition.face_locations(frame, model=self.MODEL)
-            encodings = face_recognition.face_encodings(frame, locations)
+            # locations = face_recognition.face_locations(frame, model=self.MODEL)
+            # for face_location in locations:
+            #     top_left = (face_location[3], face_location[0])
+            #     bottom_right = (face_location[1], face_location[2])
+            #     color = [0, 255, 0]
+            #     cv2.rectangle(frame, top_left, bottom_right, color, self.FRAME_THIKNESS)
 
-            print(locations)
-            for face_encoding, face_location in zip(encodings, locations):
-                results = face_recognition.compare_faces(self.DB_DATA['encodings'], face_encoding, self.TOLERANCE)
-                match = None
-                if True in results:
-                    match = self.DB_DATA['names'][results.index(True)]
-                    print(f'Match found: {match}')
-                    top_left = (face_location[3], face_location[0])
-                    bottom_right = (face_location[1], face_location[2])
-                    color = [0, 255, 0]
-                    cv2.rectangle(frame, top_left, bottom_right, color, self.FRAME_THIKNESS)
-
-                    top_left = (face_location[3], face_location[2])
-                    bottom_right = (face_location[1], face_location[2] + 22)
-                    cv2.rectangle(frame, top_left, bottom_right, color, cv2.FILLED)
-                    cv2.putText(frame, match, (face_location[3] + 10, face_location[2] + 15), cv2.FONT_HERSHEY_SIMPLEX,
-                                0.5,
-                                (200, 200, 200), self.FONT_THIKNESS)
+            # recognize faces if it was more than 0.3 seconds from the last face rec update
+            # if time.time() - self.time_from_last_face_rec_update > 0.3:
+            # locations = face_recognition.face_locations(frame, model=self.MODEL)
+            # encodings = face_recognition.face_encodings(frame, locations)
+            #
+            # for face_encoding, face_location in zip(encodings, locations):
+            #     results = face_recognition.compare_faces(self.db_data['encodings'], face_encoding, self.TOLERANCE)
+            #     match = None
+            #     if True in results:
+            #         match = self.db_data['names'][results.index(True)]
+            #         print(f'service_get_webcam_stream.generate_frame_face_rec(): Match found: {match}')
+            #         top_left = (face_location[3], face_location[0])
+            #         bottom_right = (face_location[1], face_location[2])
+            #         color = [0, 255, 0]
+            #         cv2.rectangle(frame, top_left, bottom_right, color, self.FRAME_THIKNESS)
+            #
+            #         top_left = (face_location[3], face_location[2])
+            #         bottom_right = (face_location[1], face_location[2] + 22)
+            #         cv2.rectangle(frame, top_left, bottom_right, color, cv2.FILLED)
+            #         cv2.putText(frame, match, (face_location[3] + 10, face_location[2] + 15),
+            #                     cv2.FONT_HERSHEY_SIMPLEX,
+            #                     0.5,
+            #                     (200, 200, 200), self.FONT_THIKNESS)
 
             ret, png_frame = cv2.imencode('.png', frame)
             bytes_frame = png_frame.tobytes()
+            t2 = time.time()
+            print(f'service_get_webcam_stream.generate_frame_face_rec(): Frame generation took {t2 - t1} sec')
             return bytes_frame
         except:
             return None
