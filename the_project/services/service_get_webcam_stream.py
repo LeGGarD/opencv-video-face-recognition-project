@@ -3,7 +3,6 @@ import cv2
 import numpy as np
 import face_recognition
 import json
-from fastapi import Depends
 
 from sql import models
 from sql.database import SessionLocal
@@ -24,8 +23,8 @@ class WebcamStream:
     def __init__(self):
         self.webcam = None
         self.TOLERANCE = 0.6
-        self.FRAME_THIKNESS = 3
-        self.FONT_THIKNESS = 2
+        self.FRAME_THICKNESS = 3
+        self.FONT_SCALE = 0.6
         self.MODEL = 'hog'
         self.COLOR = [0, 255, 0]
         self.db_data = self.reload_database()
@@ -33,9 +32,9 @@ class WebcamStream:
         self.last_face_rec_results = None
 
     def start_stream(self) -> bool:
-        '''
+        """
         Starts the webcam stream
-        '''
+        """
         self.webcam = cv2.VideoCapture(0)
         self.webcam.set(cv2.CAP_PROP_FRAME_WIDTH, 960)
         self.webcam.set(cv2.CAP_PROP_FRAME_HEIGHT, 540)
@@ -44,17 +43,17 @@ class WebcamStream:
         return True
 
     def stop_stream(self) -> bool:
-        '''
+        """
         Stops the webcam stream
-        '''
+        """
         self.webcam.release()
         print('service_get_webcam_stream.stop_stream(): Webcam has turned off!')
         return True
 
     def reload_database(self, db: Session = SessionLocal()) -> dict:
-        '''
+        """
         Reloads the database with faces that needed to be recognized and owners' data
-        '''
+        """
         all_encodings = db.query(models.FaceEncoding.face_encoding).all()
         all_names = db.query(models.User.name).all()
         all_addresses = db.query(models.User.address).all()
@@ -74,11 +73,11 @@ class WebcamStream:
         return {'encodings': fin_encodings, 'names': fin_names, 'addresses': fin_addresses}
 
     async def generate_frame_bytes(self) -> bytes or None:
-        '''
+        """
         Returns the actual webcam frame encoded as png and then as bytes
 
         Is used in resource_webcam_stream.websocket_endpoint() if stream_type == 1
-        '''
+        """
         try:
             success, frame = self.webcam.read()
             frame = cv2.flip(frame, 1)
@@ -88,10 +87,10 @@ class WebcamStream:
         except:
             return None
 
-    async def generate_frame_face_rec(self) -> bytes or None:
-        '''
+    async def generate_frame_face_rec(self, db: Session = SessionLocal()) -> bytes or None:
+        """
         Returns the actual webcam frame encoded as png and then as bytes
-        It also has the rectangles around recognized faces, names and adresses of recognized captured people
+        It also has the rectangles around recognized faces, names and addresses of recognized captured people
 
         Performance measurements on i5-8300H:
         - raw frame generation takes ~0.035 sec
@@ -99,58 +98,61 @@ class WebcamStream:
         - frame with located and recognized from DB face takes ~0.6 sec
 
         Is used in resource_webcam_stream.websocket_endpoint() if stream_type == 2
-        '''
+        """
         try:
             t1 = time.time()
             # trying to retrieve a frame from the webcam
             success, frame = self.webcam.read()
             frame = cv2.flip(frame, 1)
 
-            # locations = face_recognition.face_locations(frame, model=self.MODEL)
-            # for face_location in locations:
-            #     top_left = (face_location[3], face_location[0])
-            #     bottom_right = (face_location[1], face_location[2])
-            #     color = [0, 255, 0]
-            #     cv2.rectangle(frame, top_left, bottom_right, color, self.FRAME_THIKNESS)
 
             # recognize faces if it was more than 0.3 seconds from the last face rec update
-            # if time.time() - self.time_from_last_face_rec_update > 0.3:
-            # locations = face_recognition.face_locations(frame, model=self.MODEL)
-            # encodings = face_recognition.face_encodings(frame, locations)
-            #
-            # for face_encoding, face_location in zip(encodings, locations):
-            #     results = face_recognition.compare_faces(self.db_data['encodings'], face_encoding, self.TOLERANCE)
-            #     match = None
-            #     if True in results:
-            #         match = self.db_data['names'][results.index(True)]
-            #         print(f'service_get_webcam_stream.generate_frame_face_rec(): Match found: {match}')
-            #         top_left = (face_location[3], face_location[0])
-            #         bottom_right = (face_location[1], face_location[2])
-            #         color = [0, 255, 0]
-            #         cv2.rectangle(frame, top_left, bottom_right, color, self.FRAME_THIKNESS)
-            #
-            #         top_left = (face_location[3], face_location[2])
-            #         bottom_right = (face_location[1], face_location[2] + 22)
-            #         cv2.rectangle(frame, top_left, bottom_right, color, cv2.FILLED)
-            #         cv2.putText(frame, match, (face_location[3] + 10, face_location[2] + 15),
-            #                     cv2.FONT_HERSHEY_SIMPLEX,
-            #                     0.5,
-            #                     (200, 200, 200), self.FONT_THIKNESS)
+            if time.time() - self.time_from_last_face_rec_update > 1:
+
+                locations = face_recognition.face_locations(frame, model=self.MODEL)
+                if len(locations) == 0:
+                    text = f'Faces aren\'t found :('
+                    cv2.putText(img=frame, text=text, org=(20, 40), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+                                fontScale=self.FONT_SCALE, color=(0, 0, 0), lineType=cv2.LINE_AA, thickness=3)
+                    cv2.putText(img=frame, text=text, org=(20, 40), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+                                fontScale=self.FONT_SCALE, color=(200, 200, 200), lineType=cv2.LINE_AA, thickness=2)
+                else:
+                    encodings = face_recognition.face_encodings(frame, locations)
+
+                    for face_encoding, face_location in zip(encodings, locations):
+                        results = face_recognition.compare_faces(self.db_data['encodings'], face_encoding, self.TOLERANCE)
+                        if True in results:
+                            name = self.db_data['names'][results.index(True)]
+                            address = db.query(models.User.address).filter(models.User.name == name).first()
+                            print(f'service_get_webcam_stream.generate_frame_face_rec(): User found: {name}, {address[0]}')
+                            self.last_face_rec_results = f'Found {name}\'s face in the frame. His address: {address[0]}'
+                            cv2.putText(img=frame, text=self.last_face_rec_results, org=(20, 40),
+                                        fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=self.FONT_SCALE,
+                                        color=(0, 0, 0), lineType=cv2.LINE_AA, thickness=3)
+                            cv2.putText(img=frame, text=self.last_face_rec_results, org=(20, 40),
+                                        fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=self.FONT_SCALE,
+                                        color=(200, 200, 200), lineType=cv2.LINE_AA, thickness=2)
+            else:
+                print('skipping')
+                cv2.putText(img=frame, text=self.last_face_rec_results, org=(20, 40), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+                            fontScale=self.FONT_SCALE, color=(0, 0, 0), lineType=cv2.LINE_AA, thickness=3)
+                cv2.putText(img=frame, text=self.last_face_rec_results, org=(20, 40), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+                            fontScale=self.FONT_SCALE, color=(200, 200, 200), lineType=cv2.LINE_AA, thickness=2)
 
             ret, png_frame = cv2.imencode('.png', frame)
             bytes_frame = png_frame.tobytes()
             t2 = time.time()
-            print(f'service_get_webcam_stream.generate_frame_face_rec(): Frame generation took {t2 - t1} sec')
+            # print(f' service_get_webcam_stream.generate_frame_face_rec(): Frame generation took {t2 - t1} sec')
             return bytes_frame
         except:
             return None
 
     def generated_frame(self) -> np.ndarray or None:
-        '''
+        """
         Returns the actual webcam frame
 
         Is used in resource_webcam_stream.take_photo()
-        '''
+        """
         try:
             success, frame = self.webcam.read()
             frame = cv2.flip(frame, 1)
