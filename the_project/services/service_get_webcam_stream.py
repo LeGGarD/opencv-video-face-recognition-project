@@ -87,7 +87,7 @@ class WebcamStream:
         except:
             return None
 
-    def put_text_(self, frame, text, org, color=(20, 158, 139)):
+    def put_text_(self, frame, text, org, color=(108, 158, 20)):
         cv2.putText(img=frame, text=text, org=org, fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=self.FONT_SCALE,
                     color=(0, 0, 0), lineType=cv2.LINE_AA, thickness=3)
         cv2.putText(img=frame, text=text, org=org, fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=self.FONT_SCALE,
