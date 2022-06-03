@@ -60,7 +60,7 @@ function showHide(id_1, id_2, flag) {
             }
             obj.style.display = "none"; // hide preview
             obj2.style.display = "inline-block"; // show video
-            button.innerText = 'Stop';
+            button.innerText = 'Зупинити';
             button.dataset.trigger = false;
             btn_photo.style.display = "inline-block";
         }
@@ -69,7 +69,7 @@ function showHide(id_1, id_2, flag) {
             xmlHttp.send( null );
             obj.style.display = "block"; // show preview
             obj2.style.display = 'none'; // hide video
-            button.innerText = 'Start';
+            button.innerText = 'Почати';
             button.dataset.trigger = true;
             btn_photo.style.display = "none";
         }
