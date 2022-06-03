@@ -22,8 +22,6 @@ function openSocket() {
     }
 }
 
-
-
 function openSocketFaceRecognition() {
     // number 2 in the end of the link below means that the websocket will be returning webcam stream with face recoognition
     var websocket = new WebSocket("ws://127.0.0.1:8000/ws_video/2");

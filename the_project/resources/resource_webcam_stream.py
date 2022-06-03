@@ -13,6 +13,16 @@ webcam_stream = WebcamStream()
 recognize_faces = RecognizeFaces()
 
 
+def update_face_rec_db(encodings, name, address) -> bool:
+    for encoding in encodings:
+        webcam_stream.db_data['encodings'].append(encoding)
+    for i in range(5):
+        webcam_stream.db_data['names'].append(name)
+    for i in range(5):
+        webcam_stream.db_data['addresses'].append(address)
+    return True
+
+
 class ConnectionManager:
     def __init__(self):
         self.active_connections: List[WebSocket] = []

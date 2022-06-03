@@ -131,6 +131,8 @@ class WebcamStream:
 
                     self.last_face_rec_results = ['Found 1 or more residents:', ]
                     for face_encoding, face_location in zip(encodings, locations):
+                        # print('face_encoding' + face_encoding)
+                        # print('last 5 encodings' + self.db_data['encodings'][:5])
                         results = face_recognition.compare_faces(self.db_data['encodings'], face_encoding,
                                                                  self.TOLERANCE)
                         if True in results:
