@@ -75,6 +75,12 @@ class WebcamStream:
         print(f'service_get_webcam_stream.reload_database(): {len(fin_encodings)}')
         return {'encodings': fin_encodings, 'names': fin_names, 'addresses': fin_addresses}
 
+    def put_text_(self, frame, text, org, color=(108, 158, 20)):
+        cv2.putText(img=frame, text=text, org=org, fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=self.FONT_SCALE,
+                    color=(0, 0, 0), lineType=cv2.LINE_AA, thickness=3)
+        cv2.putText(img=frame, text=text, org=org, fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=self.FONT_SCALE,
+                    color=color, lineType=cv2.LINE_AA, thickness=2)
+
     async def generate_frame_bytes(self) -> bytes or None:
         """
         Returns the actual webcam frame encoded as png and then as bytes
@@ -89,12 +95,6 @@ class WebcamStream:
             return bytes_frame
         except:
             return None
-
-    def put_text_(self, frame, text, org, color=(108, 158, 20)):
-        cv2.putText(img=frame, text=text, org=org, fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=self.FONT_SCALE,
-                    color=(0, 0, 0), lineType=cv2.LINE_AA, thickness=3)
-        cv2.putText(img=frame, text=text, org=org, fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=self.FONT_SCALE,
-                    color=color, lineType=cv2.LINE_AA, thickness=2)
 
     async def generate_frame_face_rec(self, db: Session = SessionLocal()) -> bytes or None:
         """

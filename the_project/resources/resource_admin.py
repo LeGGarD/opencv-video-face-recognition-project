@@ -56,8 +56,8 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
 @router_admin.get('/admin/users/delete/{user_id}')
 def delete_user(user_id: int, db: Session = Depends(get_db)):
-    crud.delete_user(db=db, user_id=user_id)
     crud.delete_face_encoding_by_user_id(db=db, user_id=user_id)
+    crud.delete_user(db=db, user_id=user_id)
     delete_from_face_rec_db(user_id)
     return RedirectResponse(url='/admin/')
 

@@ -29,7 +29,7 @@ def delete_from_face_rec_db(user_id):
         webcam_stream.db_data['names'].pop(idx)
         webcam_stream.db_data['addresses'].pop(idx)
         idx -= 1
-    print(f'resource_webcam_stream.delete_from_face_rec_db(): Quantity of encodings in db_data -> {len(webcam_stream.db_data["encodings"])}')
+    print(f'resource_webcam_stream.delete_from_face_rec_db(): Quantity of encodings in db_data after deleting 5 rows-> {len(webcam_stream.db_data["encodings"])}')
     return True
 
 

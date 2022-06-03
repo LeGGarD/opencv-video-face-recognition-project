@@ -51,6 +51,7 @@ def get_face_encodings_by_user_id(db: Session, user_id: int):
 
 def delete_face_encoding_by_user_id(db: Session, user_id: int):
     face_encodings = db.query(models.FaceEncoding).filter(models.FaceEncoding.user_id == user_id).all()
+    print(f'sql.crud.delete_face_encoding_by_user_id(): Deleting {len(face_encodings)} encodings of User with id {user_id}')
     for face_encoding in face_encodings:
         db.delete(face_encoding)
         db.commit()
