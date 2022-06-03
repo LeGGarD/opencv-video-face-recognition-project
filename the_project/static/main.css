@@ -110,6 +110,13 @@ p a:hover {
   margin-bottom: 50px;
 }
 
+.rectangle-100 {
+    width: 100%;
+    width: 100%;
+    width: 100%;
+    height: auto;
+}
+
 #preview, #video {
   width: 100%;
   display: block;
@@ -210,7 +217,7 @@ p a:hover {
 /******************************** ADMIN PAGE *************************************/
 .add_btn
 {
-  background-color: #149E8B; /* Green */
+  background-color: #149E6C; /* Green */
   border: none;
   color: white;
   padding: 15px 32px;
@@ -226,7 +233,7 @@ p a:hover {
 
 .add_btn:hover
 {
- background-color: #43B1A2;
+ background-color: #43B189;
 }
 
 table, td, th {
@@ -597,6 +604,10 @@ input {
   background-color: white;
 }
 
+div.input-group input{
+    font-size: 14px;
+}
+
 div.input-group label {
   text-align: left;
   color: #222222;
@@ -646,6 +657,36 @@ div.input-group label {
   cursor: pointer;
   transition: 0.3s;
   position: relative;
+}
+
+.btn-start {
+    font-family: 'Montserrat','Helvetica','Arial';
+    padding: 0.75rem;
+    display: block;
+    text-decoration: none;
+    border: 2px solid #149E6C;
+    color: #149E6C;
+    text-align: center;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+    font-weight:600;
+}
+
+.btn-start:hover {
+     border: 2px solid #43B189;
+     color: #43B189;
+     font-weight:600;
+}
+
+
+.btn-photo {
+    background-color: #149E6C;
+}
+
+.btn-photo:hover {
+    background-color: #43B189;
 }
 
 .btn-center {

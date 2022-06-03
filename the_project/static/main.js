@@ -167,6 +167,7 @@ function takePhoto() {
         }
         if (encodings.length == 5) {
             btn_photo.classList.remove('btn');
+            btn_photo.classList.remove('btn-photo');
             btn_photo.classList.add('btn-disabled');
         }
     }

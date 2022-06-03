@@ -1,60 +1,60 @@
 {% extends "base.html" %}
 
 {% block head %}
-<title>Registraion Form</title>
+<title>Форма реєстрації</title>
 {% endblock %}
 
 {% block body %}
 <form action="/admin/submit_form/" method="POST" class="form">
-    <h1 class="text-center">Registration Form</h1>
+    <h1 class="text-center">Форма реєстрації</h1>
     <!-- Progress bar -->
     <div class="progressbar">
         <div class="progress" id="progress"></div>
-        <div class="progress-step progress-step-active" data-title="Contact"></div>
-        <div class="progress-step" data-title="Recognition"></div>
-        <div class="progress-step" data-title="Finish"></div>
+        <div class="progress-step progress-step-active" data-title="Дані"></div>
+        <div class="progress-step" data-title="Розпізнавання"></div>
+        <div class="progress-step" data-title="Завершення"></div>
     </div>
 
     <!-- Steps -->
     <div class="form-step form-step-active">
         <div class="input-group">
-            <label for="name" >Name *</label>
+            <label for="name" >Ім'я *</label>
             <input type="text" name="name" id="name" required/>
         </div>
         <div class="input-group">
-            <label for="address" >Address *</label>
+            <label for="address" >Адреса *</label>
             <input type="text" name="address" id="address" required/>
         </div>
         <div class="">
-            <a class="btn btn-next width-50 ml-auto" onclick="buttonNext()">Next</a>
+            <a class="btn btn-next width-50 ml-auto" onclick="buttonNext()">Далі</a>
         </div>
-        <p id="next-alert" style="display: none;">Required fields aren't filled!</p>
+        <p id="next-alert" style="display: none;">Обов'язкові поля не заповнені!</p>
     </div>
 
     <div class="form-step">
-        <h2>Face rec here</h2>
-        <div class="rectangle">
-            <img id="preview" src="../images/person.jpg"/>
+        <h2>Розпізнавання обличчя</h2>
+        <div class="rectangle rectangle-100">
+            <img id="preview" src="../images/identification.png"/>
             <canvas id="video" width="960" height="540" style="display: none; margin-left: auto; margin-right: auto;"/>
         </div>
 
         <div class="btns-group">
-            <a id="start" class="btn" onclick="showHide('preview', 'video', 1)">Start</a>
-            <a id="photo" class="btn" onclick="takePhoto()" style="display: none;">Take photo</a>
+            <a id="start" class="btn-start" onclick="showHide('preview', 'video', 1)">Почати</a>
+            <a id="photo" class="btn btn-photo" onclick="takePhoto()" style="display: none;">Зробити фото</a>
         </div>
 
-        <p id="photo-text" ><span id="saved-photos">0</span>/5 photos taken</p>
+        <p id="photo-text" ><span id="saved-photos">0</span>/5 фотографій зроблено</p>
 
         <div class="btns-group">
-            <a class="btn btn-prev" onclick="buttonPrevios()">Previous</a>
-            <a class="btn" onclick="submitForm()">Submit</a>
+            <a class="btn" onclick="buttonPrevios()">Попередній крок</a>
+            <a class="btn" onclick="submitForm()">Підтвердити та відправити</a>
         </div>
-        <p id="submit-alert" style="display: none;">The photos aren't taken</p>
+        <p id="submit-alert" style="display: none;">Фотографії не зроблені</p>
     </div>
 
     <div class="form-step">
-        <h2>User was successfully added!</h2>
-        <a class="btn btn-center" href="/admin">Admin page</a>
+        <h2>Користувача було успішно додано!</h2>
+        <a class="btn btn-center" href="/admin">Адмін сторінка</a>
     </div>
 </form>
 {% endblock %}
