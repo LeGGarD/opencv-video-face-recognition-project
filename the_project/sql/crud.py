@@ -48,3 +48,13 @@ def create_user_face_encoding(db: Session, face_encoding: schemas.FaceEncodingCr
 def get_face_encodings_by_user_id(db: Session, user_id: int):
     face_encodings = db.query(models.FaceEncoding).filter(models.FaceEncoding.user_id == user_id).all()
     return face_encodings
+
+def delete_face_encoding_by_user_id(db: Session, user_id: int):
+    face_encodings = db.query(models.FaceEncoding).filter(models.FaceEncoding.user_id == user_id).all()
+    for face_encoding in face_encodings:
+        db.delete(face_encoding)
+        db.commit()
+    return True
+
+def get_face_encodings(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.FaceEncoding).offset(skip).limit(limit).all()

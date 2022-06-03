@@ -4,7 +4,7 @@ import numpy as np
 import face_recognition
 import json
 
-from sql import models
+from sql import models, crud
 from sql.database import SessionLocal
 from sqlalchemy.orm import Session
 
@@ -30,6 +30,8 @@ class WebcamStream:
         self.db_data = self.reload_database()
         self.time_from_last_face_rec_update = time.time()
         self.last_face_rec_results = None
+        print(f'service_get_webcam_stream.generate_frame_face_rec(): Quantity of encodings in db_data -> {len(self.db_data["encodings"])}')
+        print(f'service_get_webcam_stream.generate_frame_face_rec(): Quantity of encodings in the DB -> {len(crud.get_face_encodings(db=SessionLocal()))}')
 
     def start_stream(self) -> bool:
         """
@@ -70,6 +72,7 @@ class WebcamStream:
                 fin_addresses.append(address[0])
         db.close()
         print('service_get_webcam_stream.reload_database(): The data from the DB was updated!')
+        print(f'service_get_webcam_stream.reload_database(): {len(fin_encodings)}')
         return {'encodings': fin_encodings, 'names': fin_names, 'addresses': fin_addresses}
 
     async def generate_frame_bytes(self) -> bytes or None:
@@ -92,7 +95,6 @@ class WebcamStream:
                     color=(0, 0, 0), lineType=cv2.LINE_AA, thickness=3)
         cv2.putText(img=frame, text=text, org=org, fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=self.FONT_SCALE,
                     color=color, lineType=cv2.LINE_AA, thickness=2)
-        return frame
 
     async def generate_frame_face_rec(self, db: Session = SessionLocal()) -> bytes or None:
         """
@@ -121,36 +123,29 @@ class WebcamStream:
             # print(f'service_get_webcam_stream.generate_frame_face_rec(): Time from the last face rec update -> '
             #       f'{time.time() - self.time_from_last_face_rec_update}')
             if time.time() - self.time_from_last_face_rec_update > 1:
-
                 locations = face_recognition.face_locations(frame, model=self.MODEL)
-                if len(locations) == 0:
-                    self.last_face_rec_results = ['Residents aren\'t found', ]
+                encodings = face_recognition.face_encodings(frame, locations)
+                self.last_face_rec_results = ['Residents aren\'t found', ]
 
-                else:
-                    encodings = face_recognition.face_encodings(frame, locations)
-
-                    self.last_face_rec_results = ['Found 1 or more residents:', ]
-                    for face_encoding, face_location in zip(encodings, locations):
-                        # print('face_encoding' + face_encoding)
-                        # print('last 5 encodings' + self.db_data['encodings'][:5])
-                        results = face_recognition.compare_faces(self.db_data['encodings'], face_encoding,
-                                                                 self.TOLERANCE)
-                        if True in results:
-                            name = self.db_data['names'][results.index(True)]
-                            address = db.query(models.User.address).filter(models.User.name == name).first()
-                            print(f'service_get_webcam_stream.generate_frame_face_rec(): User found: {name}, {address[0]}')
-                            self.last_face_rec_results.append((name, address[0]))
+                for face_encoding, face_location in zip(encodings, locations):
+                    results = face_recognition.compare_faces(self.db_data['encodings'], face_encoding, self.TOLERANCE)
+                    if True in results:
+                        if self.last_face_rec_results[0] == 'Residents aren\'t found':
+                            self.last_face_rec_results = ['Found 1 or more residents:', ]
+                        name = self.db_data['names'][results.index(True)]
+                        address = db.query(models.User.address).filter(models.User.name == name).first()
+                        print(f'service_get_webcam_stream.generate_frame_face_rec(): User found: {name}, {address[0]}')
+                        self.last_face_rec_results.append((name, address[0]))
                 self.time_from_last_face_rec_update = time.time()
-
 
             padding = 0
             for person in self.last_face_rec_results:
                 if isinstance(person, str):
                     text = person
-                    frame = self.put_text_(frame, text, (20, 40 + padding), color=(255, 255, 255))
+                    self.put_text_(frame, text, (20, 40 + padding), color=(255, 255, 255))
                 else:
                     text = f'{person[0]}, {person[1]}'
-                    frame = self.put_text_(frame, text, (20, 40 + padding))
+                    self.put_text_(frame, text, (20, 40 + padding))
                 padding += 30
 
             ret, png_frame = cv2.imencode('.png', frame)

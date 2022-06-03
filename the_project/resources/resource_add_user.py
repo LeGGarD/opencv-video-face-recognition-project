@@ -2,6 +2,8 @@ from fastapi import APIRouter, Form, Depends, HTTPException
 from fastapi.responses import HTMLResponse, PlainTextResponse
 from fastapi.requests import Request
 from fastapi.templating import Jinja2Templates
+import json
+
 from sqlalchemy.orm import Session
 from sql import crud, schemas
 from resources.resource_webcam_stream import update_face_rec_db
@@ -36,7 +38,7 @@ def submit_form(name: str = Form(...), address: str = Form(...), encodings: str 
             encoding = encoding + ']'
         face_encoding = schemas.FaceEncodingCreate(face_encoding=encoding)
         crud.create_user_face_encoding(db=db, face_encoding=face_encoding, user_id=user_id.id)
-        user_encodings.append(encoding)
+        user_encodings.append(json.loads(encoding))
 
     # Updating Face Rec Algorithm's Data Base
     update_face_rec_db(user_encodings, name, address)
