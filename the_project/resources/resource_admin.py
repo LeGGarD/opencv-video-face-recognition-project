@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 from sql.database import Base, engine, SessionLocal
 from sql import schemas, crud
 
-from resources.resource_webcam_stream import delete_from_face_rec_db
+from resources.resource_webcam_stream import reload_face_rec_db
 
 router_admin = APIRouter()
 templates = Jinja2Templates(directory="templates")
@@ -58,7 +58,8 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 def delete_user(user_id: int, db: Session = Depends(get_db)):
     crud.delete_face_encoding_by_user_id(db=db, user_id=user_id)
     crud.delete_user(db=db, user_id=user_id)
-    delete_from_face_rec_db(user_id)
+    # delete_from_face_rec_db(user_id)
+    reload_face_rec_db()
     return RedirectResponse(url='/admin/')
 
 

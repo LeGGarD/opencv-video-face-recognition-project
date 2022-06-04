@@ -1,4 +1,5 @@
 import asyncio
+import time
 from typing import List
 from fastapi import APIRouter, WebSocket
 from fastapi.responses import PlainTextResponse, HTMLResponse
@@ -22,14 +23,10 @@ def update_face_rec_db(encodings, name, address) -> bool:
         webcam_stream.db_data['addresses'].append(address)
     return True
 
-def delete_from_face_rec_db(user_id):
-    idx = (user_id * 5) - 1
-    for i in range(5):
-        webcam_stream.db_data['encodings'].pop(idx)
-        webcam_stream.db_data['names'].pop(idx)
-        webcam_stream.db_data['addresses'].pop(idx)
-        idx -= 1
-    print(f'resource_webcam_stream.delete_from_face_rec_db(): Quantity of encodings in db_data after deleting 5 rows-> {len(webcam_stream.db_data["encodings"])}')
+def reload_face_rec_db() -> bool:
+    t1 = time.time()
+    webcam_stream.db_data = webcam_stream.reload_database()
+    print(f'resource_webcam_stream.reload_face_rec_db(): db_data was reloaded successfully! It took {time.time() - t1:.3f} sec')
     return True
 
 
