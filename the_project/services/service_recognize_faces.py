@@ -4,11 +4,6 @@ import cv2
 from typing import List
 import numpy as np
 
-KNOWN_FACES_DIR = 'KNOWN_FACES'
-# UNKNOWN_FACES_DIR = 'UNKNOWN_FACES'
-TOLERANCE = 0.6
-FRAME_THIKNESS = 3
-FONT_THIKNESS = 2
 MODEL = 'hog'
 
 

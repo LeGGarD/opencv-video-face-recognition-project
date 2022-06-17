@@ -23,6 +23,7 @@ def update_face_rec_db(encodings, name, address) -> bool:
         webcam_stream.db_data['addresses'].append(address)
     return True
 
+
 def reload_face_rec_db() -> bool:
     t1 = time.time()
     webcam_stream.db_data = webcam_stream.reload_database()
@@ -87,7 +88,7 @@ def video_stop():
     return PlainTextResponse('You just turned off the camera')
 
 
-@router_webcam_stream.get('/take_photo', response_class=HTMLResponse)
+@router_webcam_stream.get('/take_photo')
 def take_photo() -> str or bool:
     photo = webcam_stream.generated_frame()
     if photo is None:

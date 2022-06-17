@@ -75,6 +75,44 @@ function showHide(id_1, id_2, flag) {
     else alert("Элемент с id: " + element_id + " не найден!");
 }
 
+function showHideAddUser(id_1, id_2, id_3, flag) {
+    var xmlHttp = new XMLHttpRequest();
+    var button = document.getElementById('start');
+    if (document.getElementById(id_1, id_2, id_3)){
+        var obj = document.getElementById(id_1);
+        var obj2 = document.getElementById(id_2);
+        var obj3 = document.getElementById(id_3);
+
+        if (obj2.style.display == "none") {
+            xmlHttp.open( "GET", "/video_start", false ); // false for synchronous request
+            xmlHttp.send( null );
+            if (flag === 1) {
+                openSocket();
+            }
+            if (flag === 2) {
+                openSocketFaceRecognition();
+            }
+            obj.style.display = "none"; // hide preview
+            obj2.style.display = "inline-block"; // show video
+            obj3.style.display = "inline-block";
+            button.innerText = 'Зупинити';
+            button.dataset.trigger = false;
+            btn_photo.style.display = "inline-block";
+        }
+        else {
+            xmlHttp.open( "GET", "/video_stop", false ); // false for synchronous request
+            xmlHttp.send( null );
+            obj.style.display = "block"; // show preview
+            obj2.style.display = 'none'; // hide video
+            obj3.style.display = 'none';
+            button.innerText = 'Почати';
+            button.dataset.trigger = true;
+            btn_photo.style.display = "none";
+        }
+    }
+    else alert("Элемент с id: " + element_id + " не найден!");
+}
+
 ////////////////////////////// MULTI FORM //////////////////////////////
 
 const prevBtns = document.querySelectorAll(".btn-prev");

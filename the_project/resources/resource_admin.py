@@ -58,17 +58,5 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 def delete_user(user_id: int, db: Session = Depends(get_db)):
     crud.delete_face_encoding_by_user_id(db=db, user_id=user_id)
     crud.delete_user(db=db, user_id=user_id)
-    # delete_from_face_rec_db(user_id)
     reload_face_rec_db()
     return RedirectResponse(url='/admin/')
-
-
-@router_admin.post('/admin/submit_form/')
-def submit_form(name: str = Form(...), address: str = Form(...), db: Session = Depends(get_db)):
-    user = schemas.UserCreate(name=name, address=address)
-    db_user_name = crud.get_user_by_name(db, name=user.name)
-    db_user_address = crud.get_user_by_address(db, address=user.address)
-    if db_user_address and db_user_name:
-        raise HTTPException(status_code=400, detail='Name and address is already registered')
-    crud.create_user(db=db, user=user)
-    return RedirectResponse('/admin', status_code=status.HTTP_302_FOUND)

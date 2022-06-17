@@ -52,8 +52,6 @@ h4 {
 }
 
 ul li {
-  height: 29px;
-  left: 115px;
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
@@ -62,9 +60,6 @@ ul li {
 }
 
 p {
-  height: 29px;
-  left: 115px;
-  top: 316px;
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
@@ -758,4 +753,18 @@ div.input-group label.red-text {
     color: red;
     font-size: 14px;
     margin-bottom: 0;
+}
+
+div.form-step li, div.form-step p {
+    color: #222222;
+    font-size: 18px;
+}
+
+
+
+
+
+
+div.rectangle img {
+    position: absolute;
 }

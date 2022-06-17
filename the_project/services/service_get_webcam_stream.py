@@ -22,8 +22,7 @@ class WebcamStream:
 
     def __init__(self):
         self.webcam = None
-        self.TOLERANCE = 0.6
-        self.FRAME_THICKNESS = 3
+        self.TOLERANCE = 0.4
         self.FONT_SCALE = 0.6
         self.MODEL = 'hog'
         self.COLOR = [0, 255, 0]
@@ -99,16 +98,16 @@ class WebcamStream:
     async def generate_frame_face_rec(self, db: Session = SessionLocal()) -> bytes or None:
         """
         Returns the actual webcam frame encoded as png and then as bytes
-        It also has the rectangles around recognized faces, names and addresses of recognized captured people
+        It also has names and addresses of recognized captured people
 
         Performance measurements on i5-8300H:
         - raw frame generation takes ~0.035 sec
-        - frame with localed face in it takes ~0.43 sec
+        - frame with located face in it takes ~0.43 sec
         - frame with located and recognized from DB face takes ~0.6 sec
 
         Performance measurements on M1:
         - raw frame generation takes ~0.07 sec
-        - frame with localed face in it takes ~0.32 sec
+        - frame with located face in it takes ~0.32 sec
         - frame with located and recognized from DB face takes ~0.33 sec
 
         Is used in resource_webcam_stream.websocket_endpoint() if stream_type == 2
@@ -119,7 +118,7 @@ class WebcamStream:
             success, frame = self.webcam.read()
             frame = cv2.flip(frame, 1)
 
-            # recognize faces if it was more than 0.3 seconds from the last face rec update
+            # recognize faces if it was more than 1 seconds from the last face rec update
             # print(f'service_get_webcam_stream.generate_frame_face_rec(): Time from the last face rec update -> '
             #       f'{time.time() - self.time_from_last_face_rec_update}')
             if time.time() - self.time_from_last_face_rec_update > 1:
