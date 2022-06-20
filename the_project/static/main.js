@@ -270,3 +270,63 @@ function submitForm() {
         document.getElementById('submit-alert').style.display = 'inline-block'
     }
 }
+
+////////////////////////////////// EDIT USER FORM ///////////////////////////////////////
+
+function submitEditUserForm() {
+    var name = document.getElementById("name").value
+    var address = document.getElementById("address").value
+    var user_id = document.getElementById("user-id").textContent
+    console.log(user_id)
+
+    if (name != '' && address != '') {
+        var labels = document.querySelectorAll('label');
+        for (const label of labels) {
+            label.classList.remove('red-text');
+        }
+
+        const XHR = new XMLHttpRequest();
+        let urlEncodedData = "",
+        urlEncodedDataPairs = [],
+        name;
+        if (name != '' && address != '') {
+            if (encodings.length == 0) {
+                var data = {'name': document.getElementById("name").value,
+                          'address': document.getElementById("address").value,
+                          'encodings': 'q'}
+            }
+            else if (encodings.length == 5) {
+                var data = {'name': document.getElementById("name").value,
+                          'address': document.getElementById("address").value,
+                          'encodings': encodings}
+            }
+            console.log(data)
+
+            for ( name in data ) {
+                urlEncodedDataPairs.push( encodeURIComponent( name ) + '=' + encodeURIComponent( data[name] ) );
+            }
+            console.log(urlEncodedDataPairs)
+            urlEncodedData = urlEncodedDataPairs.join( '&' ).replace( /%20/g, '+' );
+            console.log(urlEncodedData)
+            XHR.addEventListener( 'error', function(event) {
+                alert( 'Oops! Something went wrong.' );
+            } );
+            var url_for_edit = '/edit_user/' + user_id
+            XHR.open( 'POST', url_for_edit, false );
+            XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
+            XHR.send( urlEncodedData );
+        }
+        else {
+            console.log('Some inputs aren\'t filled or photos aren\'t taken')
+            document.getElementById('submit-alert').style.display = 'inline-block'
+        }
+    }
+    else {
+        document.getElementById('next-alert').style.display = 'inline-block'
+        const labels = document.querySelectorAll('label');
+        for (const label of labels) {
+            label.classList.add('red-text');
+        }
+    }
+
+}

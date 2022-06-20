@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Форма реєстрації</title>
+{% endblock %}
+
+{% block body %}
+<form action="/admin/submit_form/" method="POST" class="form">
+    <h1 class="text-center">Оновлення даних мешканця із ID <span id="user-id">{{ user.id }}</span></h1>
+    <!-- Steps -->
+    <div class="form-step form-step-active">
+        <div class="input-group">
+            <label for="name" >Ім'я *</label>
+            <input type="text" name="name" id="name" value="{{ user.name }}" required/>
+        </div>
+        <div class="input-group">
+            <label for="address" >Адреса *</label>
+            <input type="text" name="address" id="address" value="{{ user.address }}" required/>
+        </div>
+        <p id="next-alert" style="display: none;">Обов'язкові поля не заповнені!</p>
+
+        <h2>Розпізнавання обличчя</h2>
+        <p>Для оновлення користувача в базі даних, необхідно отримати дані про риси обличчя користувача.</p>
+        <p>Слідуйте наступній інструкції:</p>
+        <ul>
+            <li>Увімкніть камеру, натиснувши на кнопку “Почати”.</li>
+            <li>Зробіть 5 фотографій, натискаючи на кнопку "Зробити фото"</li>
+            <li>Коли ви зробите 5 фотографій, необхідно зупинити трансляцию камери, натиснувши кнопку “Зупинити”.</li>
+            <li>Натисніть кнопку “Підтвердити та відправити”.</li>
+        </ul>
+        <div class="rectangle rectangle-100">
+            <img id="preview" src="../images/identification.png"/>
+            <canvas id="video" width="960" height="540" style="display: none; margin-left: auto; margin-right: auto;"/>
+        </div>
+
+        <div class="btns-group">
+            <a id="start" class="btn-start" onclick="showHide('preview', 'video', 1)">Почати</a>
+            <a id="photo" class="btn btn-photo" onclick="takePhoto()" style="display: none;">Зробити фото</a>
+        </div>
+
+        <p id="photo-text" ><span id="saved-photos">0</span>/5 фотографій зроблено</p>
+
+        <div class="btns-group">
+            <a class="btn" onclick="submitEditUserForm()">Підтвердити та відправити</a>
+        </div>
+        <p id="submit-alert" style="display: none;">Фотографії не зроблені</p>
+    </div>
+
+</form>
+{% endblock %}

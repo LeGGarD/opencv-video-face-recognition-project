@@ -38,6 +38,18 @@ def delete_user(db: Session, user_id: int):
     db.commit()
     return True
 
+def update_user_name(db: Session, user_id: int, name: str):
+    user = get_user(db=db, user_id=user_id)
+    user.name = name
+    db.commit()
+    return True
+
+def update_user_address(db: Session, user_id: int, address: str):
+    user = get_user(db=db, user_id=user_id)
+    user.address = address
+    db.commit()
+    return True
+
 def create_user_face_encoding(db: Session, face_encoding: schemas.FaceEncodingCreate, user_id: int):
     db_face_encoding = models.FaceEncoding(**face_encoding.dict(), user_id=user_id)
     db.add(db_face_encoding)
