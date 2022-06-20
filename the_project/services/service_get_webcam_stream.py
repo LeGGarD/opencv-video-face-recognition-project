@@ -1,12 +1,15 @@
+import sqlite3
 import time
 import cv2
 import numpy as np
 import face_recognition
 import json
-
-from sql import models, crud
-from sql.database import SessionLocal
+import sqlalchemy
 from sqlalchemy.orm import Session
+
+from sql import models, crud, database
+from sql.database import SessionLocal
+
 
 
 # Dependency
@@ -22,11 +25,12 @@ class WebcamStream:
 
     def __init__(self):
         self.webcam = None
-        self.TOLERANCE = 0.4
+        self.TOLERANCE = 0.5
         self.FONT_SCALE = 0.6
         self.MODEL = 'hog'
         self.COLOR = [0, 255, 0]
         self.db_data = self.reload_database()
+        self.len_db_data = len(self.db_data['encodings'])
         self.time_from_last_face_rec_update = time.time()
         self.last_face_rec_results = None
         print(f'service_get_webcam_stream.generate_frame_face_rec(): Quantity of encodings in db_data -> {len(self.db_data["encodings"])}')
@@ -55,24 +59,29 @@ class WebcamStream:
         """
         Reloads the database with faces that needed to be recognized and owners' data
         """
-        all_encodings = db.query(models.FaceEncoding.face_encoding).all()
-        all_names = db.query(models.User.name).all()
-        all_addresses = db.query(models.User.address).all()
+        def query_db():
+            all_encodings_ = db.query(models.FaceEncoding.face_encoding).all()
+            all_names_ = db.query(models.User.name).all()
+            all_addresses_ = db.query(models.User.address).all()
+            return all_encodings_, all_names_, all_addresses_
+
+        try:
+            all_encodings, all_names, all_addresses = query_db()
+        except sqlalchemy.exc.OperationalError or sqlite3.OperationalError as e:
+            database.Base.metadata.create_all(database.engine)
+            all_encodings, all_names, all_addresses = query_db()
+
         fin_encodings = []
-        fin_names = []
-        fin_addresses = []
         for encoding in all_encodings:
             fin_encodings.append(json.loads(encoding[0]))
-        for name in all_names:
-            for i in range(5):
-                fin_names.append(name[0])
-        for address in all_addresses:
-            for i in range(5):
-                fin_addresses.append(address[0])
+
+        map_index_to_user = {key: value for key, value in zip(range(len(all_names)), zip(all_names, all_addresses))}
+
+        self.len_db_data = len(all_names)
         db.close()
         print('service_get_webcam_stream.reload_database(): The data from the DB was updated!')
         print(f'service_get_webcam_stream.reload_database(): {len(fin_encodings)}')
-        return {'encodings': fin_encodings, 'names': fin_names, 'addresses': fin_addresses}
+        return {'encodings': fin_encodings, 'index_to_user': map_index_to_user}
 
     def put_text_(self, frame, text, org, color=(108, 158, 20)):
         cv2.putText(img=frame, text=text, org=org, fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=self.FONT_SCALE,
@@ -121,21 +130,36 @@ class WebcamStream:
             # recognize faces if it was more than 1 seconds from the last face rec update
             # print(f'service_get_webcam_stream.generate_frame_face_rec(): Time from the last face rec update -> '
             #       f'{time.time() - self.time_from_last_face_rec_update}')
+
             if time.time() - self.time_from_last_face_rec_update > 1:
                 locations = face_recognition.face_locations(frame, model=self.MODEL)
                 encodings = face_recognition.face_encodings(frame, locations)
                 self.last_face_rec_results = ['Residents aren\'t found', ]
 
-                for face_encoding, face_location in zip(encodings, locations):
-                    results = face_recognition.compare_faces(self.db_data['encodings'], face_encoding, self.TOLERANCE)
-                    if True in results:
-                        if self.last_face_rec_results[0] == 'Residents aren\'t found':
-                            self.last_face_rec_results = ['Found 1 or more residents:', ]
-                        name = self.db_data['names'][results.index(True)]
-                        address = db.query(models.User.address).filter(models.User.name == name).first()
-                        print(f'service_get_webcam_stream.generate_frame_face_rec(): User found: {name}, {address[0]}')
-                        self.last_face_rec_results.append((name, address[0]))
-                self.time_from_last_face_rec_update = time.time()
+                if self.len_db_data > 0:
+                    for face_encoding in encodings:
+                        # print(type(self.db_data['encodings'][0]))
+                        # print(type(self.db_data['encodings'][0][0]))
+                        # print(type(face_encoding))
+                        # print(type(face_encoding[0]))
+                        results = face_recognition.face_distance(np.array(self.db_data['encodings']), np.array(face_encoding))
+
+                        distances = []
+                        for i in range(0, len(results), 5):
+                            mean_distance = np.mean(results[i:i + 5])
+                            distances.append(mean_distance)
+                        min_distance = np.min(distances)
+
+                        if min_distance < self.TOLERANCE:
+                            matched_identity_idx = distances.index(np.min(distances))
+                            name = self.db_data['index_to_user'][matched_identity_idx][0][0]
+                            address = self.db_data['index_to_user'][matched_identity_idx][1][0]
+                            print(f'service_get_webcam_stream.generate_frame_face_rec(): User found: {name}, {address}')
+                            if self.last_face_rec_results[0] == 'Residents aren\'t found':
+                                self.last_face_rec_results = ['Found 1 or more residents:', ]
+                            self.last_face_rec_results.append((name, address))
+
+                    self.time_from_last_face_rec_update = time.time()
 
             padding = 0
             for person in self.last_face_rec_results:

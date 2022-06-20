@@ -1,8 +1,9 @@
 import asyncio
+import json
 import time
 from typing import List
 from fastapi import APIRouter, WebSocket
-from fastapi.responses import PlainTextResponse, HTMLResponse
+from fastapi.responses import PlainTextResponse
 from starlette.websockets import WebSocketDisconnect
 
 from services.service_get_webcam_stream import WebcamStream
@@ -17,10 +18,12 @@ recognize_faces = RecognizeFaces()
 def update_face_rec_db(encodings, name, address) -> bool:
     for encoding in encodings:
         webcam_stream.db_data['encodings'].append(encoding)
-    for i in range(5):
-        webcam_stream.db_data['names'].append(name)
-    for i in range(5):
-        webcam_stream.db_data['addresses'].append(address)
+    users_num = len(webcam_stream.db_data['index_to_user'])
+    webcam_stream.db_data['index_to_user'][users_num] = (name, address)
+
+    user = webcam_stream.db_data["index_to_user"][list(webcam_stream.db_data["index_to_user"].keys())[-1]]
+    webcam_stream.len_db_data = len(webcam_stream.db_data['encodings'])
+    print(f'resource_webcam_stream.update_face_rec_db(): Right now was added a new user: {user}')
     return True
 
 
@@ -101,4 +104,4 @@ def take_photo() -> str or bool:
         print('resource_webcam_stream.recognize_face(): Face not found or found more than 1 face!')
         return PlainTextResponse('')
     else:
-        return str(list(encodings[0]))
+        return PlainTextResponse(json.dumps(list(encodings[0])))

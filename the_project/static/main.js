@@ -200,6 +200,9 @@ function takePhoto() {
             encodings.push(xmlHttp.responseText)
             taken_photos_span.innerHTML = (parseInt(taken_photos_span.innerHTML) + 1).toString()
             console.log(encodings)
+//            console.log('test string')
+//            console.log(xmlHttp.responseText)
+//            console.log(typeof xmlHttp.responseText)
         }
         if (encodings.length == 5) {
             btn_photo.classList.remove('btn');
