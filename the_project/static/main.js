@@ -315,6 +315,7 @@ function submitEditUserForm() {
             XHR.open( 'POST', url_for_edit, false );
             XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
             XHR.send( urlEncodedData );
+            window.location.replace(url_for_edit);
         }
         else {
             console.log('Some inputs aren\'t filled or photos aren\'t taken')

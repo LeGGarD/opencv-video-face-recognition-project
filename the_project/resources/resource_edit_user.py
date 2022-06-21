@@ -41,4 +41,4 @@ def proceed_esit_user_form(user_id: int, name: str = Form(...), address: str = F
     # Updating Face Rec Algorithm's Data Base
     reload_face_rec_db()
 
-    return RedirectResponse(url=f'/edit_user/{user_id}', status_code=200)
+    return PlainTextResponse('The user data was successfully edited!')
